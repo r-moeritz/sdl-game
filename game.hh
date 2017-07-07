@@ -24,7 +24,7 @@ namespace My {
         
         private:
 
-        Game();
+        Game() {}
                 
         SDL_Window* _pWindow;
         SDL_Renderer* _pRenderer;
