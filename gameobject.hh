@@ -1,32 +1,20 @@
 #ifndef GAMEOBJECT_HH
 #define GAMEOBJECT_HH
 
-#include "texturemanager.hh"
-#include "SDL2/SDL.h"
+#include "loaderparams.hh"
 
 namespace My {
     class GameObject {
         public:
         
-        virtual void load(int x, int y, int width, int height, 
-            std::string textureId);
-        virtual void draw(SDL_Renderer*);
-        virtual void update();
+        virtual void draw() = 0;
+        virtual void update() = 0;
         virtual void clean() = 0;
         
         protected:
 
-        My::TextureManager* _pTextureMgr = My::TextureManager::Instance();
-        std::string _textureId;
-        
-        int _currentFrame;
-        int _currentRow;
-
-        int _x;
-        int _y;
-        
-        int _width;
-        int _height;
+        GameObject(const My::LoaderParams*) {}
+        virtual ~GameObject() {}
     };
 }
 

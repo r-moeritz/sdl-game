@@ -1,9 +1,10 @@
 #include "player.hh"
+#include "SDL2/SDL.h"
+
+My::Player::Player(const My::LoaderParams* pParams)
+    : My::SDLGameObject(pParams) {}
 
 void My::Player::update() {
-    My::GameObject::update();
-    ++_x;
-}
-
-void My::Player::clean() {
+    --_x;
+    _curFrame = int((SDL_GetTicks() / 100) * 6);
 }

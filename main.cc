@@ -1,22 +1,20 @@
+#include "SDL2/SDL.h"
 #include "game.hh"
 
-using namespace std;
-
-#include "SDL2/SDL.h"
-
 int main(int argc, char* argv[]) {
-    My::Game game;
-    game.init("chapter 1", 100, 100, 640, 480, false);
+    My::Game* game = My::Game::Instance();
     
-    while (game.running()) {
-        game.handleEvents();
-        game.update();
-        game.render();
+    game->init("chapter 1", 100, 100, 640, 480, false);
+    
+    while (game->running()) {
+        game->handleEvents();
+        game->update();
+        game->render();
         
         SDL_Delay(10);        
     }
     
-    game.clean();
+    game->clean();
     
     return 0;
 }

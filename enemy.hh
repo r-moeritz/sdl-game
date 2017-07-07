@@ -1,14 +1,14 @@
-#ifndef PLAYER_HH
-#define PLAYER_HH
+#ifndef ENEMY_HH
+#define ENEMY_HH
 
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
 
 namespace My {
-    class Player : public My::SDLGameObject {
+    class Enemy : public My::SDLGameObject {
         public:
         
-        Player(const My::LoaderParams*);
+        Enemy(const My::LoaderParams*); 
         
         virtual void update();
     };
