@@ -7,5 +7,7 @@ My::Enemy::Enemy(const My::LoaderParams* pParams)
 void My::Enemy::update() {
     ++_x;
     ++_y;
-    _curFrame = int((SDL_GetTicks() / 100) * 6);
+    _curFrame = int((SDL_GetTicks() / 100) % 6);
 }
+
+void My::Enemy::clean() {}

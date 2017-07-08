@@ -24,14 +24,14 @@ namespace My {
         
         private:
 
-        Game() {}
+        Game();
                 
         SDL_Window* _pWindow;
         SDL_Renderer* _pRenderer;
                
         bool _running;
 
-        My::TextureManager* _pTextureMgr = My::TextureManager::Instance();
+        My::TextureManager* _pTextureMgr;
         std::vector<My::GameObject*> _gameObjects;
         
         static My::Game* s_pInstance;      

@@ -2,7 +2,7 @@
 #include "player.hh"
 #include "game.hh"
 #include "SDL2/SDL.h"
-#include <iostream>
+#include "SDL2/SDL_image.h"
 
 My::Game* My::Game::s_pInstance = nullptr;
 
@@ -14,14 +14,24 @@ My::Game* My::Game::Instance() {
     return s_pInstance;
 }
 
+My::Game::Game() : _pTextureMgr(My::TextureManager::Instance()) {}
+
 bool My::Game::init(const char* title, int xpos, int ypos,
         int height, int width, bool fullscreen) {
-    /* SDL_Init() doesn't seem to work (or be necessary) on Android
+    /* 
+     * Conditionally compile SDL_Init and ÍMG_Init, because they
+     * aren't necessary (and don't work) on Android.
+     */
+    #ifndef ANDROID
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-        std::cerr << "ERROR SDL_Init" << std::endl;
         return false;        
     }
-    */
+
+    int imgFlags = IMG_INIT_PNG;
+    if (!( IMG_Init( imgFlags ) & imgFlags )) {
+        return false;
+    }
+    #endif
     
     int flags = SDL_WINDOW_SHOWN;
     if (fullscreen) {
@@ -31,13 +41,11 @@ bool My::Game::init(const char* title, int xpos, int ypos,
     _pWindow = SDL_CreateWindow(title, xpos, ypos,
             height, width, flags);        
     if (!_pWindow) {
-        std::cerr << "ERROR SDL_CreateWindow" << std::endl;
         return false;
     }
             
     _pRenderer = SDL_CreateRenderer(_pWindow, -1, 0);
     if (!_pRenderer) {
-        std::cerr << "ERROR SDL_CreateRenderer" << std::endl;
         return false;
     }
         
@@ -50,7 +58,7 @@ bool My::Game::init(const char* title, int xpos, int ypos,
     _gameObjects.push_back(new My::Enemy(
             new My::LoaderParams(300, 300, 128, 82, "animate")));
         
-    _running = true;    
+    _running = true;
     return _running;
 }
 

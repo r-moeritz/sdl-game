@@ -11,6 +11,7 @@ namespace My {
         Player(const My::LoaderParams*);
         
         virtual void update();
+        virtual void clean();
     };
 }
 

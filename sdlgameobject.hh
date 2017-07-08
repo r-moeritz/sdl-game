@@ -10,20 +10,21 @@
 namespace My {
     class SDLGameObject : public GameObject {
         public:
-        
-        SDLGameObject(const My::LoaderParams*);
-        
+
         virtual void draw();
-        virtual void update();
-        virtual void clean();
+        virtual void update() = 0;
+        virtual void clean() = 0;
         
         protected:
+
+        SDLGameObject(const My::LoaderParams*);
+        virtual ~SDLGameObject() {}
         
         int _x, _y, _width, _height;
         std::string _textureId;
         
-        int _curRow = 1;
-        int _curFrame = 1;
+        int _curRow = 0;
+        int _curFrame = 0;
         
         My::TextureManager* _pTextureMgr;
         My::Game* _pGame;
