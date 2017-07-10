@@ -2,9 +2,9 @@
 #define GAME_HH
 
 #include <vector>
-#include "SDL2/SDL.h"
 #include "texturemanager.hh"
 #include "gameobject.hh"
+#include "SDL2/SDL.h"
 
 namespace My {
     class Game {
@@ -20,7 +20,7 @@ namespace My {
         inline bool running() const { return _running; }
         inline SDL_Renderer* renderer() const { return _pRenderer; }
         
-        static My::Game* Instance();
+        static Game* Instance();
         
         private:
 
@@ -31,10 +31,10 @@ namespace My {
                
         bool _running;
 
-        My::TextureManager* _pTextureMgr;
-        std::vector<My::GameObject*> _gameObjects;
+        TextureManager* _pTextureMgr;
+        std::vector<GameObject*> _gameObjects;
         
-        static My::Game* s_pInstance;      
+        static Game* s_pInstance;      
     };
 }
 

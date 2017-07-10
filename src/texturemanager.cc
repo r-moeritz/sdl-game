@@ -1,4 +1,5 @@
 #include "texturemanager.hh"
+#include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 
 My::TextureManager* My::TextureManager::s_pInstance = nullptr;

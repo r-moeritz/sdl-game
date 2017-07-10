@@ -13,7 +13,7 @@ namespace My {
         
         protected:
 
-        GameObject(const My::LoaderParams*) {}
+        GameObject(const LoaderParams*) {}
         virtual ~GameObject() {}
     };
 }

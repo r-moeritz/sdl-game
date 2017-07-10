@@ -17,7 +17,7 @@ namespace My {
             int currentRow, int currentFrame, SDL_Renderer* pRenderer, 
             SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-        static My::TextureManager* Instance();
+        static TextureManager* Instance();
                         
         private:
 
@@ -25,7 +25,7 @@ namespace My {
                 
         std::map<std::string, SDL_Texture*> _textureMap;
         
-        static My::TextureManager* s_pInstance;
+        static TextureManager* s_pInstance;
     };
 }
 

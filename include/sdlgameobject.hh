@@ -6,6 +6,7 @@
 #include "loaderparams.hh"
 #include "texturemanager.hh"
 #include "game.hh"
+#include "SDL2/SDL.h"
 
 namespace My {
     class SDLGameObject : public GameObject {
@@ -17,7 +18,7 @@ namespace My {
         
         protected:
 
-        SDLGameObject(const My::LoaderParams*);
+        SDLGameObject(const LoaderParams*);
         virtual ~SDLGameObject() {}
         
         int _x, _y, _width, _height;
@@ -26,8 +27,8 @@ namespace My {
         int _curRow = 0;
         int _curFrame = 0;
         
-        My::TextureManager* _pTextureMgr;
-        My::Game* _pGame;
+        TextureManager* _pTextureMgr;
+        Game* _pGame;
     };
 }
 

@@ -5,10 +5,10 @@
 #include "loaderparams.hh"
 
 namespace My {
-    class Enemy : public My::SDLGameObject {
+    class Enemy : public SDLGameObject {
         public:
         
-        Enemy(const My::LoaderParams*); 
+        Enemy(const LoaderParams*); 
         
         virtual void update();
         virtual void clean();
