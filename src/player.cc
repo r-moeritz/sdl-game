@@ -5,8 +5,9 @@ My::Player::Player(const My::LoaderParams* pParams)
     : My::SDLGameObject(pParams) {}
 
 void My::Player::update() {
-    ++_x;
-    _curFrame = int((SDL_GetTicks() / 100) % 6);
+  _curFrame = int((SDL_GetTicks() / 100) % 6);
+  _acceleration.setX(1);
+  SDLGameObject::update();
 }
 
 void My::Player::clean() {}

@@ -6,30 +6,34 @@
 #include "loaderparams.hh"
 #include "texturemanager.hh"
 #include "game.hh"
+#include "vector2d.hh"
 #include "SDL2/SDL.h"
 
 namespace My {
-    class SDLGameObject : public GameObject {
-        public:
+  class SDLGameObject : public GameObject {
+  public:
 
-        virtual void draw();
-        virtual void update() = 0;
-        virtual void clean() = 0;
-        
-        protected:
+    virtual void draw();
+    virtual void update();
+    virtual void clean() = 0;
 
-        SDLGameObject(const LoaderParams*);
-        virtual ~SDLGameObject() {}
+  protected:
+
+    SDLGameObject(const LoaderParams*);
+    virtual ~SDLGameObject() {}
         
-        int _x, _y, _width, _height;
-        std::string _textureId;
+    int _width, _height;
+    Vector2D _position;
+    Vector2D _velocity;
+    Vector2D _acceleration;
+    std::string _textureId;
         
-        int _curRow = 0;
-        int _curFrame = 0;
+    int _curRow = 0;
+    int _curFrame = 0;
         
-        TextureManager* _pTextureMgr;
-        Game* _pGame;
-    };
+    TextureManager* _pTextureMgr;
+    Game* _pGame;
+  };
 }
 
 #endif
