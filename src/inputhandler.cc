@@ -12,6 +12,32 @@ My::InputHandler* My::InputHandler::Instance() {
   return s_pInstance;
 }
 
+int My::InputHandler::y(int joy, int stick) const {
+  if (_joystickValues.size() < joy-1) return 0;
+
+  if (stick == 1) {
+    return _joystickValues[joy].first->y();
+  }
+  else if (stick == 2) {
+    return _joystickValues[joy].second->y();
+  }
+
+  return 0;
+}
+
+int My::InputHandler::x(int joy, int stick) const {
+  if (_joystickValues.size() < joy-1) return 0;
+
+  if (stick == 1) {
+    return _joystickValues[joy].first->x();
+  }
+  else if (stick == 2) {
+    return _joystickValues[joy].second->x();
+  }
+
+  return 0;
+}
+
 void My::InputHandler::initializeJoysticks() {
   if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
@@ -23,6 +49,7 @@ void My::InputHandler::initializeJoysticks() {
 
       if (joy) {
         _joysticks.push_back(joy);
+        _joystickValues.push_back(std::make_pair(new My::Vector2D(0, 0), new My::Vector2D(0, 0)));
       }
       else {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, SDL_GetError());
@@ -54,6 +81,9 @@ void My::InputHandler::update() {
   while (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {
       My::Game::Instance()->clean();
+    }
+    else if (event.type == SDL_JOYAXISMOTION) {
+      auto whichOne = event.jaxis.which;
     }
   }
 }

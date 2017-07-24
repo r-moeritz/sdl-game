@@ -30,6 +30,12 @@
 *.exe
 *.out
 *.app
+game
 
 # Emacs backup files
 *.*~
+
+# GNU Global files
+GPATH
+GRTAGS
+GTAGS

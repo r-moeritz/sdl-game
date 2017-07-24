@@ -5,7 +5,6 @@ const int FPS = 60;
 const int DELAY_TIME = 1000 / FPS;
 
 int main(int argc, char* argv[]) {
-
     #ifdef DEBUG
     SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
     #endif
