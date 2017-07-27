@@ -3,15 +3,21 @@
 
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
+#include "inputhandler.hh"
 
 namespace My {
     class Player : public SDLGameObject {
-        public:
-        
+    public:
+
         Player(const LoaderParams*);
         
         virtual void update();
         virtual void clean();
+
+    private:
+
+        void handleInput();
+        InputHandler* _pInputHandler;
     };
 }
 

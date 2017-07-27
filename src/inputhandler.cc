@@ -84,6 +84,58 @@ void My::InputHandler::update() {
     }
     else if (event.type == SDL_JOYAXISMOTION) {
       auto whichOne = event.jaxis.which;
+
+      // Move left stick left or right
+      if (event.jaxis.axis == 0) {
+        if (event.jaxis.value > _joystickDeadzone) {
+          _joystickValues[whichOne].first->setX(1);
+        }
+        else if (event.jaxis.value < -_joystickDeadzone) {
+          _joystickValues[whichOne].first->setX(-1);
+        }
+        else {
+          _joystickValues[whichOne].first->setX(0);
+        }
+      }
+
+      // Move left stick up or down
+      if (event.jaxis.axis == 1) {
+        if (event.jaxis.value > _joystickDeadzone) {
+          _joystickValues[whichOne].first->setY(1);
+        }
+        else if (event.jaxis.value < -_joystickDeadzone) {
+          _joystickValues[whichOne].first->setY(-1);
+        }
+        else {
+          _joystickValues[whichOne].first->setY(0);
+        }
+      }
+
+      // Move right stick left or right
+      if (event.jaxis.axis == 3) {
+        if (event.jaxis.value > _joystickDeadzone) {
+          _joystickValues[whichOne].second->setX(1);
+        }
+        else if (event.jaxis.value < -_joystickDeadzone) {
+          _joystickValues[whichOne].second->setX(-1);
+        }
+        else {
+          _joystickValues[whichOne].second->setX(0);
+        }
+      }
+
+      // Move right stick up or down
+      if (event.jaxis.axis == 4) {
+        if (event.jaxis.value > _joystickDeadzone) {
+          _joystickValues[whichOne].second->setY(1);
+        }
+        else if (event.jaxis.value < -_joystickDeadzone) {
+          _joystickValues[whichOne].second->setY(-1);
+        }
+        else {
+          _joystickValues[whichOne].second->setY(0);
+        }
+      }
     }
   }
 }
