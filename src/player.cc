@@ -20,6 +20,13 @@ void My::Player::clean() {}
 
 void My::Player::handleInput() {
   if (_pInputHandler->joysticksInitialized()) {
+    if (_pInputHandler->buttonState(0, 3)) {
+      _acceleration.setX(_acceleration.x() + 1);
+    }
+    if (_pInputHandler->buttonState(0, 2)) {
+      _acceleration.setX(_acceleration.x() - 1);
+    }
+
     if (_pInputHandler->x(0,1) != 0) {
       _velocity.setX(1 * _pInputHandler->x(0,1));
     }

@@ -17,6 +17,8 @@ namespace My {
     int x(int joy, int stick) const;
     int y(int joy, int stick) const;
 
+    bool buttonState(int joy, int buttonNr) const;
+
     void initializeJoysticks();
     inline bool joysticksInitialized() {
       return _joysticksInitialized;
@@ -30,8 +32,9 @@ namespace My {
 
     std::vector<std::pair<Vector2D*, Vector2D*>> _joystickValues;
     std::vector<SDL_Joystick*> _joysticks;
+    std::vector<std::vector<bool>> _buttonStates;
     bool _joysticksInitialized;
-    int _joystickDeadzone = 100000;
+    int _joystickDeadzone = 10000;
   };
 }
 

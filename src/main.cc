@@ -33,7 +33,9 @@ int main(int argc, char* argv[]) {
     
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Cleaning up...");
     game->clean();
-    
+
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exiting...");
+    SDL_Quit();
+
     return 0;
 }

@@ -97,11 +97,14 @@ void My::Game::clean() {
 
     // TODO delete game objects and remove from collection?
 
+    _pInputHandler->clean();
     SDL_DestroyWindow(_pWindow);
     SDL_DestroyRenderer(_pRenderer);
-    _pInputHandler->clean();
-    SDL_Quit();
 
     _pWindow = nullptr;
     _pRenderer = nullptr;
+}
+
+void My::Game::quit() {
+    _running = false;
 }

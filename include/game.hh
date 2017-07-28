@@ -16,6 +16,7 @@ namespace My {
                 void clean();
                 void update();
                 void handleEvents();
+                void quit();
 
                 inline bool running() const { return _running; }
                 inline SDL_Renderer* renderer() const { return _pRenderer; }
