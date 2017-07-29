@@ -18,6 +18,7 @@ namespace My {
     int y(int joy, int stick) const;
 
     bool buttonState(int joy, int buttonNr) const;
+    bool isKeyDown(SDL_Scancode key) const;
 
     void initializeJoysticks();
     inline bool joysticksInitialized() {
@@ -28,6 +29,10 @@ namespace My {
     InputHandler() {}
     ~InputHandler() {}
 
+    void onJoystickAxisMove(const SDL_Event& event);
+    void onJoystickButtonUpOrDown(const SDL_Event& event);
+    void onKeyUpOrDown();
+
     static InputHandler* s_pInstance;
 
     std::vector<std::pair<Vector2D*, Vector2D*>> _joystickValues;
@@ -35,6 +40,7 @@ namespace My {
     std::vector<std::vector<bool>> _buttonStates;
     bool _joysticksInitialized;
     int _joystickDeadzone = 10000;
+    const Uint8* _keyState;
   };
 }
 
