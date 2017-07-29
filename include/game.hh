@@ -2,10 +2,11 @@
 #define GAME_HH
 
 #include <vector>
+#include "SDL2/SDL.h"
 #include "texturemanager.hh"
 #include "gameobject.hh"
 #include "inputhandler.hh"
-#include "SDL2/SDL.h"
+#include "gamestatemachine.hh"
 
 namespace My {
         class Game {
@@ -27,15 +28,17 @@ namespace My {
 
                 Game();
 
+                bool _running;
+
+                // Owned by SDL
                 SDL_Window* _pWindow;
                 SDL_Renderer* _pRenderer;
 
-                bool _running;
-
+                // Need to be manually deleted
                 InputHandler* _pInputHandler;
                 TextureManager* _pTextureMgr;
-
                 std::vector<GameObject*> _gameObjects;
+                GameStateMachine* _pGameStateMachine;
 
                 static Game* s_pInstance;
         };

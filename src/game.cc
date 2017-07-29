@@ -1,9 +1,11 @@
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
 #include "enemy.hh"
 #include "player.hh"
 #include "game.hh"
 #include "inputhandler.hh"
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+#include "menustate.hh"
+#include "playerstate.hh"
 
 My::Game* My::Game::s_pInstance = nullptr;
 
@@ -63,12 +65,19 @@ bool My::Game::init(const char* title, int xpos, int ypos,
     _gameObjects.push_back(new My::Enemy(
             new My::LoaderParams(300, 300, 128, 82, "animate")));
 
+    _pGameStateMachine = new GameStateMachine();
+    _pGameStateMachine->pushState(new MenuState());
+
     _running = true;
     return _running;
 }
 
 void My::Game::handleEvents() {
     _pInputHandler->update();
+
+    if (_pInputHandler->isKeyDown(SDL_SCANCODE_SPACE)) {
+        _pGameStateMachine->changeState(new PlayerState());
+    }
 }
 
 void My::Game::render() {
@@ -95,7 +104,7 @@ void My::Game::clean() {
         _gameObjects[i]->clean();
     }
 
-    // TODO delete game objects and remove from collection?
+    // TODO delete game objects and game state machine
 
     _pInputHandler->clean();
     SDL_DestroyWindow(_pWindow);
