@@ -12,6 +12,12 @@ My::InputHandler* My::InputHandler::Instance() {
   return s_pInstance;
 }
 
+My::InputHandler::InputHandler() : _mousePos(0, 0) {
+  for (auto i = 0; i != 3; ++i) {
+    _mouseButtonStates.push_back(false);
+  }
+}
+
 int My::InputHandler::y(int joy, int stick) const {
   if (!_joystickValues.size()) return 0;
 
@@ -40,6 +46,15 @@ int My::InputHandler::x(int joy, int stick) const {
 
 bool My::InputHandler::buttonState(int joy, int buttonNr) const {
   return _buttonStates[joy][buttonNr];
+}
+
+bool My::InputHandler::mouseButtonState(MouseButton button) const {
+  auto i = static_cast<int>(button);
+  return _mouseButtonStates[i];
+}
+
+My::Vector2D My::InputHandler::mousePosition() const {
+  return _mousePos;
 }
 
 bool My::InputHandler::isKeyDown(SDL_Scancode key) const {
@@ -112,6 +127,16 @@ void My::InputHandler::update() {
     case SDL_KEYDOWN:
     case SDL_KEYUP:
       onKeyUpOrDown();
+      break;
+
+    case SDL_MOUSEBUTTONDOWN:
+    case SDL_MOUSEBUTTONUP:
+      onMouseButtonUpOrDown(event);
+      break;
+
+    case SDL_MOUSEMOTION:
+      onMouseMove(event);
+      break;
     }
   }
 }
@@ -180,4 +205,31 @@ void My::InputHandler::onJoystickButtonUpOrDown(const SDL_Event& event) {
 
 void My::InputHandler::onKeyUpOrDown() {
   _keyState = SDL_GetKeyboardState(0);
+}
+
+void My::InputHandler::onMouseButtonUpOrDown(const SDL_Event& event) {
+  auto button = -1;
+
+  switch (event.button.button) {
+  case SDL_BUTTON_LEFT:
+    button = static_cast<int>(MouseButton::left);
+    break;
+
+  case SDL_BUTTON_MIDDLE:
+    button = static_cast<int>(MouseButton::middle);
+    break;
+
+  case SDL_BUTTON_RIGHT:
+    button = static_cast<int>(MouseButton::right);
+    break;
+  }
+
+  if (button < 0) return; // unknown mouse button (gaming mouse?)
+
+  _mouseButtonStates[button] = !_mouseButtonStates[button];
+}
+
+void My::InputHandler::onMouseMove(const SDL_Event& event) {
+  _mousePos.setX(event.motion.x);
+  _mousePos.setY(event.motion.y);
 }

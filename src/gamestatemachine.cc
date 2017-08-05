@@ -33,3 +33,15 @@ void My::GameStateMachine::popState() {
 std::shared_ptr<My::GameState> My::GameStateMachine::currentState() const {
   return _gameStates.back();
 }
+
+void My::GameStateMachine::update() {
+  if (_gameStates.empty()) return;
+
+  currentState()->update();
+}
+
+void My::GameStateMachine::render() {
+  if (_gameStates.empty()) return;
+
+  currentState()->render();
+}

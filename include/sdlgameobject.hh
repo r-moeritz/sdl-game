@@ -5,6 +5,7 @@
 #include "gameobject.hh"
 #include "loaderparams.hh"
 #include "texturemanager.hh"
+#include "inputhandler.hh"
 #include "game.hh"
 #include "vector2d.hh"
 #include "SDL2/SDL.h"
@@ -32,6 +33,7 @@ namespace My {
     int _curFrame = 0;
         
     TextureManager* _pTextureMgr;
+    InputHandler* _pInputHandler;
     Game* _pGame;
   };
 }

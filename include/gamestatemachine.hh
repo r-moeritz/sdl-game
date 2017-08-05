@@ -9,6 +9,9 @@ namespace My {
   class GameStateMachine {
   public:
 
+    void update();
+    void render();
+
     void pushState(GameState*);
     void changeState(GameState*);
     void popState();

@@ -1,20 +1,53 @@
 #include "menustate.hh"
 #include "SDL2/SDL.h"
+#include "game.hh"
+#include "menubutton.hh"
+
+My::MenuState::MenuState()
+  : _pTextureManager(TextureManager::Instance()) {}
 
 void My::MenuState::update() {
-  // TODO
+  for (auto i = 0; i != _gameObjects.size(); ++i) {
+    _gameObjects[i]->update();
+  }
 }
 
 void My::MenuState::render() {
-  // TODO
+  for (auto i = 0; i != _gameObjects.size(); ++i) {
+    _gameObjects[i]->draw();
+  }
 }
 
 bool My::MenuState::onEnter() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Entering MENU state...");
+
+  if (!_pTextureManager->load("assets/button.png","playbutton",
+                              Game::Instance()->renderer())
+      || !_pTextureManager->load("assets/exit.png", "exitbutton",
+                                 Game::Instance()->renderer())) {
+    return false;
+  }
+
+  std::shared_ptr<GameObject> button1(new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton")));
+  std::shared_ptr<GameObject> button2(new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton")));
+
+  _gameObjects.push_back(button1);
+  _gameObjects.push_back(button2);
+
   return true;
 }
 
 bool My::MenuState::onExit() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exiting MENU state...");
+
+  for (auto i = 0; i != _gameObjects.size(); ++i) {
+    _gameObjects[i]->clean();
+  }
+
+  _gameObjects.clear();
+
+  _pTextureManager->clearFromTextureMap("playbutton");
+  _pTextureManager->clearFromTextureMap("exitbutton");
+
   return true;
 }

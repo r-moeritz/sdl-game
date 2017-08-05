@@ -2,7 +2,8 @@
 
 My::SDLGameObject::SDLGameObject(const My::LoaderParams* pParams)
   : My::GameObject(pParams), 
-  _pTextureMgr(My::TextureManager::Instance()), 
+  _pTextureMgr(My::TextureManager::Instance()),
+  _pInputHandler(My::InputHandler::Instance()),
   _pGame(My::Game::Instance()),
   _position(pParams->x(), pParams->y()),
   _velocity(0, 0),

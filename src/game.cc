@@ -1,7 +1,5 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
-#include "enemy.hh"
-#include "player.hh"
 #include "game.hh"
 #include "inputhandler.hh"
 #include "menustate.hh"
@@ -18,8 +16,7 @@ My::Game* My::Game::Instance() {
 }
 
 My::Game::Game()
-    : _pTextureMgr(My::TextureManager::Instance()),
-      _pInputHandler(My::InputHandler::Instance()) {}
+    : _pInputHandler(My::InputHandler::Instance()) {}
 
 bool My::Game::init(const char* title, int xpos, int ypos,
         int height, int width, bool fullscreen) {
@@ -55,17 +52,6 @@ bool My::Game::init(const char* title, int xpos, int ypos,
     }
 
     _pInputHandler->initializeJoysticks();
-
-    SDL_SetRenderDrawColor(_pRenderer, 255, 0, 0, 255);
-
-    _pTextureMgr->load("assets/animate-alpha.png", "animate", _pRenderer);
-
-    _gameObjects.push_back(new My::Player(
-            new My::LoaderParams(100, 100, 128, 82, "animate")));
-    _gameObjects.push_back(new My::Enemy(
-            new My::LoaderParams(300, 300, 128, 82, "animate")));
-
-    _pGameStateMachine = new GameStateMachine();
     _pGameStateMachine->pushState(new MenuState());
 
     _running = true;
@@ -83,35 +69,21 @@ void My::Game::handleEvents() {
 void My::Game::render() {
     SDL_RenderClear(_pRenderer);
 
-    for (std::vector<My::GameObject*>::size_type i = 0;
-            i != _gameObjects.size(); ++i) {
-        _gameObjects[i]->draw();
-    }
+    _pGameStateMachine->render();
 
     SDL_RenderPresent(_pRenderer);
 }
 
 void My::Game::update() {
-    for (std::vector<My::GameObject*>::size_type i = 0;
-            i != _gameObjects.size(); ++i) {
-        _gameObjects[i]->update();
-    }
+    _pGameStateMachine->update();
 }
 
 void My::Game::clean() {
-    for (std::vector<My::GameObject*>::size_type i = 0;
-            i != _gameObjects.size(); ++i) {
-        _gameObjects[i]->clean();
-    }
-
-    // TODO delete game objects and game state machine
-
+    _pGameStateMachine->popState();
     _pInputHandler->clean();
+
     SDL_DestroyWindow(_pWindow);
     SDL_DestroyRenderer(_pRenderer);
-
-    _pWindow = nullptr;
-    _pRenderer = nullptr;
 }
 
 void My::Game::quit() {

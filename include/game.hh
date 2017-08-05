@@ -3,8 +3,6 @@
 
 #include <vector>
 #include "SDL2/SDL.h"
-#include "texturemanager.hh"
-#include "gameobject.hh"
 #include "inputhandler.hh"
 #include "gamestatemachine.hh"
 
@@ -36,9 +34,7 @@ namespace My {
 
                 // Need to be manually deleted
                 InputHandler* _pInputHandler;
-                TextureManager* _pTextureMgr;
-                std::vector<GameObject*> _gameObjects;
-                GameStateMachine* _pGameStateMachine;
+                GameStateMachine* _pGameStateMachine = new GameStateMachine();
 
                 static Game* s_pInstance;
         };
