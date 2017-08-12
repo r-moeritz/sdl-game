@@ -1,4 +1,5 @@
 #include "menustate.hh"
+#include "playstate.hh"
 #include "SDL2/SDL.h"
 #include "game.hh"
 #include "menubutton.hh"
@@ -28,8 +29,10 @@ bool My::MenuState::onEnter() {
     return false;
   }
 
-  std::shared_ptr<GameObject> button1(new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton")));
-  std::shared_ptr<GameObject> button2(new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton")));
+  std::shared_ptr<GameObject> button1(new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton"),
+                                                     s_menuToPlay));
+  std::shared_ptr<GameObject> button2(new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton"),
+                                                     s_exitFromMenu));
 
   _gameObjects.push_back(button1);
   _gameObjects.push_back(button2);
@@ -50,4 +53,14 @@ bool My::MenuState::onExit() {
   _pTextureManager->clearFromTextureMap("exitbutton");
 
   return true;
+}
+
+void My::MenuState::s_menuToPlay() {
+  SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Play button clicked.");
+  Game::Instance()->stateMachine()->changeState(new PlayState());
+}
+
+void My::MenuState::s_exitFromMenu() {
+  SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exit button clicked.");
+  Game::Instance()->quit();
 }

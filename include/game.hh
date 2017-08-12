@@ -19,6 +19,7 @@ namespace My {
 
                 inline bool running() const { return _running; }
                 inline SDL_Renderer* renderer() const { return _pRenderer; }
+                inline GameStateMachine* stateMachine() const { return _pGameStateMachine; }
 
                 static Game* Instance();
 

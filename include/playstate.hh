@@ -1,11 +1,13 @@
-#ifndef PLAYERSTATE_HH
-#define PLAYERSTATE_HH
+#ifndef PLAYSTATE_HH
+#define PLAYSTATE_HH
 
 #include "gamestate.hh"
 
 namespace My {
-  class PlayerState : public GameState {
+  class PlayState : public GameState {
   public:
+
+    PlayState();
 
     virtual void update();
     virtual void render();
@@ -14,7 +16,7 @@ namespace My {
     virtual bool onExit();
 
     virtual std::string stateId() const {
-      return "PLAYER";
+      return "PLAY";
     }
   };
 }

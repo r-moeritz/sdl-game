@@ -1,7 +1,9 @@
 #include "menubutton.hh"
 
-My::MenuButton::MenuButton(const LoaderParams* pParams)
-  : My::SDLGameObject(pParams)  {
+My::MenuButton::MenuButton(const LoaderParams* pParams,
+                           std::function<void()> callback)
+  : My::SDLGameObject(pParams), _callback(callback) {
+
 }
 
 void My::MenuButton::draw() {
@@ -17,8 +19,16 @@ void My::MenuButton::update() {
       && mousePos.y() > _position.y()) {
     _curFrame = static_cast<int>(ButtonState::mouseOver);
 
-    if (_pInputHandler->mouseButtonState(MouseButton::left)) {
+    if (_pInputHandler->mouseButtonState(MouseButton::left)
+        && _released) {
       _curFrame = static_cast<int>(ButtonState::clicked);
+      _released = false;
+
+      _callback();
+    }
+    else if (_pInputHandler->mouseButtonState(MouseButton::left)) {
+      _curFrame = static_cast<int>(ButtonState::mouseOver);
+      _released = true;
     }
   }
   else {

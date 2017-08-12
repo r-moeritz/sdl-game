@@ -3,7 +3,7 @@
 #include "game.hh"
 #include "inputhandler.hh"
 #include "menustate.hh"
-#include "playerstate.hh"
+#include "playstate.hh"
 
 My::Game* My::Game::s_pInstance = nullptr;
 
@@ -62,7 +62,7 @@ void My::Game::handleEvents() {
     _pInputHandler->update();
 
     if (_pInputHandler->isKeyDown(SDL_SCANCODE_SPACE)) {
-        _pGameStateMachine->changeState(new PlayerState());
+        _pGameStateMachine->changeState(new PlayState());
     }
 }
 
