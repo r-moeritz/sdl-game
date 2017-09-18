@@ -12,8 +12,11 @@ My::TextureManager* My::TextureManager::Instance() {
     return s_pInstance;
 }
 
-bool My::TextureManager::load(std::string fileName, std::string id, 
-        SDL_Renderer* pRenderer) {
+bool My::TextureManager::load(
+        std::string fileName,
+        std::string id,
+        SDL_Renderer* pRenderer
+) {
 
     SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
     

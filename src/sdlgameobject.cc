@@ -19,6 +19,14 @@ void My::SDLGameObject::update() {
 }
 
 void My::SDLGameObject::draw() {
-  _pTextureMgr->drawFrame(_textureId, _position.x(), _position.y(), _width, _height,
-			  _curRow, _curFrame, _pGame->renderer());
+  if (_velocity.x() > 0) {
+    _pTextureMgr->drawFrame(_textureId, _position.x(), _position.y(),
+                            _width, _height, _curRow, _curFrame,
+                            _pGame->renderer(), SDL_FLIP_HORIZONTAL);
+  }
+  else {
+    _pTextureMgr->drawFrame(_textureId, _position.x(), _position.y(),
+                            _width, _height, _curRow, _curFrame,
+                            _pGame->renderer());
+  }
 }

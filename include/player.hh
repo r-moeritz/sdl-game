@@ -3,7 +3,6 @@
 
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
-#include "inputhandler.hh"
 
 namespace My {
     class Player : public SDLGameObject {
@@ -17,7 +16,6 @@ namespace My {
     private:
 
         void handleInput();
-        InputHandler* _pInputHandler;
     };
 }
 

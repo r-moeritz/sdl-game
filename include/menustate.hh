@@ -25,11 +25,11 @@ namespace My {
 
   private:
 
+    static void s_play();
+    static void s_exit();
+
     std::vector<std::shared_ptr<GameObject>> _gameObjects;
     TextureManager* _pTextureManager;
-
-    static void s_menuToPlay();
-    static void s_exitFromMenu();
   };
 }
 

@@ -1,9 +1,9 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "game.hh"
-#include "inputhandler.hh"
 #include "menustate.hh"
 #include "playstate.hh"
+#include <memory>
 
 My::Game* My::Game::s_pInstance = nullptr;
 
@@ -16,7 +16,10 @@ My::Game* My::Game::Instance() {
 }
 
 My::Game::Game()
-    : _pInputHandler(My::InputHandler::Instance()) {}
+    : _pInputHandler(My::InputHandler::Instance()),
+      _pGameStateMachine(My::GameStateMachine::Instance()) {
+
+}
 
 bool My::Game::init(const char* title, int xpos, int ypos,
         int height, int width, bool fullscreen) {
@@ -52,7 +55,9 @@ bool My::Game::init(const char* title, int xpos, int ypos,
     }
 
     _pInputHandler->initializeJoysticks();
-    _pGameStateMachine->pushState(new MenuState());
+
+    std::shared_ptr<GameState> pMenuState(new MenuState());
+    _pGameStateMachine->changeState(pMenuState);
 
     _running = true;
     return _running;
@@ -60,10 +65,6 @@ bool My::Game::init(const char* title, int xpos, int ypos,
 
 void My::Game::handleEvents() {
     _pInputHandler->update();
-
-    if (_pInputHandler->isKeyDown(SDL_SCANCODE_SPACE)) {
-        _pGameStateMachine->changeState(new PlayState());
-    }
 }
 
 void My::Game::render() {
@@ -79,7 +80,7 @@ void My::Game::update() {
 }
 
 void My::Game::clean() {
-    _pGameStateMachine->popState();
+    _pGameStateMachine->clean();
     _pInputHandler->clean();
 
     SDL_DestroyWindow(_pWindow);

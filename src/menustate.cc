@@ -3,6 +3,7 @@
 #include "SDL2/SDL.h"
 #include "game.hh"
 #include "menubutton.hh"
+#include "gamestatemachine.hh"
 
 My::MenuState::MenuState()
   : _pTextureManager(TextureManager::Instance()) {}
@@ -29,10 +30,8 @@ bool My::MenuState::onEnter() {
     return false;
   }
 
-  std::shared_ptr<GameObject> button1(new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton"),
-                                                     s_menuToPlay));
-  std::shared_ptr<GameObject> button2(new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton"),
-                                                     s_exitFromMenu));
+  std::shared_ptr<GameObject> button1(new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton"), s_play));
+  std::shared_ptr<GameObject> button2(new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton"), s_exit));
 
   _gameObjects.push_back(button1);
   _gameObjects.push_back(button2);
@@ -47,20 +46,19 @@ bool My::MenuState::onExit() {
     _gameObjects[i]->clean();
   }
 
-  _gameObjects.clear();
-
   _pTextureManager->clearFromTextureMap("playbutton");
   _pTextureManager->clearFromTextureMap("exitbutton");
 
   return true;
 }
 
-void My::MenuState::s_menuToPlay() {
+void My::MenuState::s_play() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Play button clicked.");
-  Game::Instance()->stateMachine()->changeState(new PlayState());
+  std::shared_ptr<GameState> pPlayState(new PlayState());
+  GameStateMachine::Instance()->changeState(pPlayState);
 }
 
-void My::MenuState::s_exitFromMenu() {
+void My::MenuState::s_exit() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exit button clicked.");
   Game::Instance()->quit();
 }

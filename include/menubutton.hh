@@ -9,7 +9,7 @@ namespace My {
   class MenuButton : public SDLGameObject {
   public:
 
-    MenuButton(const LoaderParams* pParams, std::function<void()> callback);
+    MenuButton(const LoaderParams*, std::function<void()>);
 
     virtual void draw();
     virtual void update();

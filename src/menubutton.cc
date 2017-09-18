@@ -37,5 +37,5 @@ void My::MenuButton::update() {
 }
 
 void My::MenuButton::clean() {
-  //SDLGameObject::clean();
+  // SDLGameObject::clean();
 }
