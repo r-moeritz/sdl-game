@@ -16,45 +16,61 @@ My::GameStateMachine::GameStateMachine() {
 }
 
 void My::GameStateMachine::changeState(std::shared_ptr<GameState> pNewState) {
-  if (!exitCurrentState()) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 ("'Exiting " + currentState()->stateId()
-                  + " state").c_str());
-    return;
+  if (popState()) {
+    pushState(pNewState);
   }
-
-  if (!enterState(pNewState)) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 ("Entering " + pNewState->stateId()
-                  + " state").c_str());
-    return;
-  }
-
-  popState();
-  pushState(pNewState);
 }
 
 bool My::GameStateMachine::enterState(std::shared_ptr<GameState> pNewState) {
   if (!_gameStates.empty()
-      && currentState()->stateId() == pNewState->stateId()) return false;
+      && currentState()->stateId() == pNewState->stateId()) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 ("Entering " + pNewState->stateId()
+                  + " state. Same as current state!").c_str());
+    return false;
+  }
 
-  return pNewState->onEnter();
+  auto res = pNewState->onEnter();
+
+  if (!res) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 ("Entering " + pNewState->stateId()
+                  + " state").c_str());
+  }
+
+  return res;
 }
 
 bool My::GameStateMachine::exitCurrentState() {
   if (_gameStates.empty()) return true;
 
-  return currentState()->onExit();
-}
+  auto res = currentState()->onExit();
 
-void My::GameStateMachine::pushState(std::shared_ptr<GameState> pNewState) {
-  _gameStates.push_back(pNewState);
-}
-
-void My::GameStateMachine::popState() {
-  if (!_gameStates.empty()) {
-    _gameStates.pop_back();
+  if (!res) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 ("'Exiting " + currentState()->stateId()
+                  + " state").c_str());
   }
+
+  return res;
+}
+
+bool My::GameStateMachine::pushState(std::shared_ptr<GameState> pNewState) {
+  if (!enterState(pNewState)) return false;
+
+  _gameStates.push_back(pNewState);
+
+  return true;
+}
+
+bool My::GameStateMachine::popState() {
+  if (_gameStates.empty()) return true;
+
+  if (!exitCurrentState()) return false;;
+
+  _gameStates.pop_back();
+
+  return true;
 }
 
 std::shared_ptr<My::GameState> My::GameStateMachine::currentState() const {

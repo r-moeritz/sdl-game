@@ -15,6 +15,8 @@ namespace My {
     void clean();
 
     void changeState(std::shared_ptr<GameState>);
+    bool pushState(std::shared_ptr<GameState>);
+    bool popState();
 
     static GameStateMachine* Instance();
 
@@ -25,10 +27,8 @@ namespace My {
     static GameStateMachine* s_pInstance;
 
     std::vector<std::shared_ptr<GameState>> _gameStates;
-
     std::shared_ptr<GameState> currentState() const;
-    void pushState(std::shared_ptr<GameState>);
-    void popState();
+
     bool enterState(std::shared_ptr<GameState>);
     bool exitCurrentState();
   };

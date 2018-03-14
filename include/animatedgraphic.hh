@@ -1,14 +1,14 @@
-#ifndef ENEMY_HH
-#define ENEMY_HH
+#ifndef ANIMATEDGRAPHIC_HH
+#define ANIMATEDGRAPHIC_HH
 
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
 
 namespace My {
-  class Enemy : public SDLGameObject {
+  class AnimatedGraphic : public SDLGameObject {
   public:
 
-    Enemy(const LoaderParams*, int);
+    AnimatedGraphic(const LoaderParams*, int, int);
 
     virtual void update();
     virtual void clean();
@@ -16,6 +16,7 @@ namespace My {
   private:
 
     int _numFrames;
+    int _animSpeed;
   };
 }
 

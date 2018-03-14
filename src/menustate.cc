@@ -30,11 +30,11 @@ bool My::MenuState::onEnter() {
     return false;
   }
 
-  std::shared_ptr<GameObject> button1(new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton"), s_play));
-  std::shared_ptr<GameObject> button2(new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton"), s_exit));
+  std::shared_ptr<GameObject> playButton(new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton"), s_play));
+  std::shared_ptr<GameObject> exitButton(new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton"), s_exit));
 
-  _gameObjects.push_back(button1);
-  _gameObjects.push_back(button2);
+  _gameObjects.push_back(playButton);
+  _gameObjects.push_back(exitButton);
 
   return true;
 }

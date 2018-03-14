@@ -5,18 +5,19 @@
 #include "loaderparams.hh"
 
 namespace My {
-    class Player : public SDLGameObject {
-    public:
+  class Player : public SDLGameObject {
+  public:
 
-        Player(const LoaderParams*);
-        
-        virtual void update();
-        virtual void clean();
+    Player(const LoaderParams*, int);
 
-    private:
+    virtual void update();
+    virtual void clean();
 
-        void handleInput();
-    };
+  private:
+
+    int _numFrames;
+    void handleInput();
+  };
 }
 
 #endif

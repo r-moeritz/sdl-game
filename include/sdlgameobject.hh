@@ -18,6 +18,10 @@ namespace My {
     virtual void update();
     virtual void clean() = 0;
 
+    inline Vector2D position() const { return _position; };
+    inline int width() const { return _width; };
+    inline int height() const { return _height; };
+
   protected:
 
     SDLGameObject(const LoaderParams*);
@@ -28,7 +32,8 @@ namespace My {
     Vector2D _velocity;
     Vector2D _acceleration;
     std::string _textureId;
-        
+
+    int _numFrames;
     int _curRow = 0;
     int _curFrame = 0;
         

@@ -1,18 +1,20 @@
-#ifndef PLAYSTATE_HH
-#define PLAYSTATE_HH
+#ifndef GAMEOVERSTATE_HH
+#define GAMEOVERSTATE_HH
 
+#include <string>
 #include <vector>
 #include <memory>
 #include "gamestate.hh"
 #include "gameobject.hh"
-#include "sdlgameobject.hh"
 #include "texturemanager.hh"
+#include "gamestatemachine.hh"
+#include "game.hh"
 
 namespace My {
-  class PlayState : public GameState {
+  class GameOverState : public GameState {
   public:
 
-    PlayState();
+    GameOverState();
 
     virtual void update();
     virtual void render();
@@ -21,15 +23,17 @@ namespace My {
     virtual bool onExit();
 
     virtual std::string stateId() const {
-      return "PLAY";
+      return "GAMEOVER";
     }
 
   private:
 
-    bool collision(std::shared_ptr<SDLGameObject>, std::shared_ptr<SDLGameObject>);
+    static void s_gameOverToMain();
+    static void s_restartPlay();
 
     std::vector<std::shared_ptr<GameObject>> _gameObjects;
     TextureManager* _pTextureManager;
+    Game* _pGame;
   };
 }
 

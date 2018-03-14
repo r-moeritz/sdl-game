@@ -1,36 +1,30 @@
-#ifndef MENUSTATE_HH
-#define MENUSTATE_HH
+#ifndef PAUSESTATE_HH
+#define PAUSESTATE_HH
 
 #include <memory>
-#include <string>
 #include <vector>
-#include "gameobject.hh"
+#include <string>
 #include "gamestate.hh"
-#include "texturemanager.hh"
 
 namespace My {
-  class MenuState : public GameState {
+  class PauseState : public GameState {
   public:
-
-    MenuState();
 
     virtual void update();
     virtual void render();
-
     virtual bool onEnter();
     virtual bool onExit();
 
     virtual std::string stateId() const {
-      return "MENU";
+      return "PAUSE";
     }
 
   private:
 
-    static void s_play();
-    static void s_exit();
+    static void s_main();
+    static void s_resume();
 
     std::vector<std::shared_ptr<GameObject>> _gameObjects;
-    TextureManager* _pTextureManager;
   };
 }
 

@@ -1,8 +1,8 @@
 #include "player.hh"
 #include "SDL2/SDL.h"
 
-My::Player::Player(const My::LoaderParams* pParams)
-  : My::SDLGameObject(pParams) {
+My::Player::Player(const My::LoaderParams* pParams, int numFrames)
+  : My::SDLGameObject(pParams), _numFrames(numFrames) {
 
 }
 
@@ -12,7 +12,7 @@ void My::Player::update() {
 
   handleInput();
 
-  _curFrame = int((SDL_GetTicks() / 100) % 6);
+  _curFrame = int((SDL_GetTicks() / 100) % _numFrames);
 
   SDLGameObject::update();
 }
