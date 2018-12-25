@@ -1,12 +1,14 @@
 #include "player.hh"
 #include "SDL2/SDL.h"
 
-My::Player::Player(const My::LoaderParams* pParams, int numFrames)
-  : My::SDLGameObject(pParams), _numFrames(numFrames) {
+using namespace MyGame;
+
+Player::Player(const LoaderParams* pParams, int numFrames)
+  : SDLGameObject(pParams), _numFrames(numFrames) {
 
 }
 
-void My::Player::update() {
+void Player::update() {
   _velocity.setX(0);
   _velocity.setY(0);
 
@@ -17,9 +19,9 @@ void My::Player::update() {
   SDLGameObject::update();
 }
 
-void My::Player::clean() {}
+void Player::clean() {}
 
-void My::Player::handleInput() {
+void Player::handleInput() {
   auto target = _pInputHandler->mousePosition();
   _velocity = target - _position;
   _velocity /= 50;

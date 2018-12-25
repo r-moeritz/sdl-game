@@ -10,9 +10,8 @@
 #include "gamestatemachine.hh"
 #include "game.hh"
 
-namespace My {
-  class GameOverState : public GameState {
-  public:
+namespace MyGame {
+  struct GameOverState : public GameState {
 
     GameOverState();
 

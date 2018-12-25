@@ -5,9 +5,8 @@
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
 
-namespace My {
-  class MenuButton : public SDLGameObject {
-  public:
+namespace MyGame {
+  struct MenuButton : public SDLGameObject {
 
     MenuButton(const LoaderParams*, std::function<void()>);
 

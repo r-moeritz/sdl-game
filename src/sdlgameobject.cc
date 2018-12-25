@@ -1,10 +1,12 @@
 #include "sdlgameobject.hh"
 
-My::SDLGameObject::SDLGameObject(const My::LoaderParams* pParams)
-  : My::GameObject(pParams), 
-  _pTextureMgr(My::TextureManager::Instance()),
-  _pInputHandler(My::InputHandler::Instance()),
-  _pGame(My::Game::Instance()),
+using namespace MyGame;
+
+SDLGameObject::SDLGameObject(const LoaderParams* pParams)
+  : GameObject(pParams),
+  _pTextureMgr(TextureManager::Instance()),
+  _pInputHandler(InputHandler::Instance()),
+  _pGame(Game::Instance()),
   _position(pParams->x(), pParams->y()),
   _velocity(0, 0),
   _acceleration(0, 0) {
@@ -13,12 +15,12 @@ My::SDLGameObject::SDLGameObject(const My::LoaderParams* pParams)
   _textureId = pParams->textureId();
 }
 
-void My::SDLGameObject::update() {
+void SDLGameObject::update() {
   _velocity += _acceleration;
   _position += _velocity;
 }
 
-void My::SDLGameObject::draw() {
+void SDLGameObject::draw() {
   if (_velocity.x() > 0) {
     _pTextureMgr->drawFrame(_textureId, _position.x(), _position.y(),
                             _width, _height, _curRow, _curFrame,

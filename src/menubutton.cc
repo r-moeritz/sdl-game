@@ -1,16 +1,18 @@
 #include "menubutton.hh"
 
-My::MenuButton::MenuButton(const LoaderParams* pParams,
+using namespace MyGame;
+
+MenuButton::MenuButton(const LoaderParams* pParams,
                            std::function<void()> callback)
-  : My::SDLGameObject(pParams), _callback(callback) {
+  : SDLGameObject(pParams), _callback(callback) {
 
 }
 
-void My::MenuButton::draw() {
+void MenuButton::draw() {
   SDLGameObject::draw();
 }
 
-void My::MenuButton::update() {
+void MenuButton::update() {
   auto mousePos = _pInputHandler->mousePosition();
 
   if (mousePos.x() < (_position.x() + _width)
@@ -36,4 +38,4 @@ void My::MenuButton::update() {
   }
 }
 
-void My::MenuButton::clean() {}
+void MenuButton::clean() {}

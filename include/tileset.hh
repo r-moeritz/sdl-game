@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace My {
+namespace MyGame {
   struct Tileset {
     int firstGridID;
     int tileWidth;

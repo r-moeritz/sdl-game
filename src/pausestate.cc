@@ -5,19 +5,21 @@
 #include "menubutton.hh"
 #include "SDL2/SDL.h"
 
-void My::PauseState::update() {
+using namespace MyGame;
+
+void PauseState::update() {
   for (auto i = 0; i != _gameObjects.size(); ++i) {
     _gameObjects[i]->update();
   }
 }
 
-void My::PauseState::render() {
+void PauseState::render() {
   for (auto i = 0; i != _gameObjects.size(); ++i) {
     _gameObjects[i]->draw();
   }
 }
 
-bool My::PauseState::onEnter() {
+bool PauseState::onEnter() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Entering PAUSE state...");
 
   if (!TextureManager::Instance()->load("assets/resume.png",
@@ -43,7 +45,7 @@ bool My::PauseState::onEnter() {
   return true;
 }
 
-bool My::PauseState::onExit() {
+bool PauseState::onExit() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exiting PAUSE state...");
 
   for (auto i = 0; i != _gameObjects.size(); ++i) {
@@ -56,11 +58,11 @@ bool My::PauseState::onExit() {
   return true;
 }
 
-void My::PauseState::s_main() {
+void PauseState::s_main() {
   std::shared_ptr<GameState> pMenuState(new MenuState());
   GameStateMachine::Instance()->changeState(pMenuState);
 }
 
-void My::PauseState::s_resume() {
+void PauseState::s_resume() {
   GameStateMachine::Instance()->popState();
 }

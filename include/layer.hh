@@ -1,9 +1,8 @@
 #ifndef LAYER_HH
 #define LAYER_HH
 
-namepsace My {
-  class Layer {
-  public:
+namespace MyGame {
+  struct Layer {
 
     virtual void render() = 0;
     virtual void update() = 0;

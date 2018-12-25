@@ -4,15 +4,15 @@
 #include <vector>
 #include <memory>
 
-namespace My {
+namespace MyGame {
   struct Layer;
   struct Tileset;
 
   using LayerPtr = std::shared_ptr<Layer>;
   using TilesetPtr = std::shared_ptr<Tileset>;
 
-  class Level {
-  public:
+  struct Level {
+
     Level();
     ~Level() {}
 

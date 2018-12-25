@@ -10,9 +10,8 @@
 #include "vector2d.hh"
 #include "SDL2/SDL.h"
 
-namespace My {
-  class SDLGameObject : public GameObject {
-  public:
+namespace MyGame {
+  struct SDLGameObject : public GameObject {
 
     virtual void draw();
     virtual void update();

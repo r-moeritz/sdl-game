@@ -5,12 +5,11 @@
 #include <vector>
 #include <memory>
 
-namespace My {
+namespace MyGame {
   struct TilesetPtr;
   struct Vector2DPtr;
 
-  class TileLayer : public Layer {
-  public:
+  struct TileLayer : public Layer {
 
     TileLayer(int tileSize, std::vector<TilesetPtr>& const tileSets);
 

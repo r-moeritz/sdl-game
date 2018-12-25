@@ -8,9 +8,8 @@
 #include "gamestate.hh"
 #include "texturemanager.hh"
 
-namespace My {
-  class MenuState : public GameState {
-  public:
+namespace MyGame {
+  struct MenuState : public GameState {
 
     MenuState();
 

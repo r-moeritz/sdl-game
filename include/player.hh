@@ -4,9 +4,8 @@
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
 
-namespace My {
-  class Player : public SDLGameObject {
-  public:
+namespace MyGame {
+  struct Player : public SDLGameObject {
 
     Player(const LoaderParams*, int);
 

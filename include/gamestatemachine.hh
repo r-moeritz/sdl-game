@@ -6,9 +6,8 @@
 #include <memory>
 #include <string>
 
-namespace My {
-  class GameStateMachine {
-  public:
+namespace MyGame {
+  struct GameStateMachine {
 
     void update();
     void render();

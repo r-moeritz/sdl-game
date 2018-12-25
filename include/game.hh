@@ -6,37 +6,37 @@
 #include "inputhandler.hh"
 #include "gamestatemachine.hh"
 
-namespace My {
-        class Game {
-        public:
-                bool init(const char* title, int xpos, int ypos,
-                          int height, int width, bool fullscreen);
-                void render();
-                void clean();
-                void update();
-                void handleEvents();
-                void quit();
+namespace MyGame {
+  struct Game {
 
-                inline bool running() const { return _running; }
-                inline SDL_Renderer* renderer() const { return _pRenderer; }
-                static Game* Instance();
+    bool init(const char* title, int xpos, int ypos,
+              int height, int width, bool fullscreen);
+    void render();
+    void clean();
+    void update();
+    void handleEvents();
+    void quit();
 
-        private:
+    inline bool running() const { return _running; }
+    inline SDL_Renderer* renderer() const { return _pRenderer; }
+    static Game* Instance();
 
-                Game();
+  private:
 
-                bool _running;
+    Game();
 
-                // Owned by SDL
-                SDL_Window* _pWindow;
-                SDL_Renderer* _pRenderer;
+    bool _running;
 
-                // Need to be manually deleted
-                InputHandler* _pInputHandler;
-                GameStateMachine* _pGameStateMachine;
+    // Owned by SDL
+    SDL_Window* _pWindow;
+    SDL_Renderer* _pRenderer;
 
-                static Game* s_pInstance;
-        };
+    // Need to be manually deleted
+    InputHandler* _pInputHandler;
+    GameStateMachine* _pGameStateMachine;
+
+    static Game* s_pInstance;
+  };
 }
 
 #endif

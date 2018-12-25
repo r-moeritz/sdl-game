@@ -6,11 +6,11 @@
 #include <vector>
 #include <utility>
 
-namespace My {
+namespace MyGame {
   enum class MouseButton { left, middle, right };
 
-  class InputHandler {
-  public:
+  struct InputHandler {
+
     static InputHandler* Instance();
 
     void update();

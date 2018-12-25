@@ -3,9 +3,9 @@
 
 #include <string>
 
-namespace My {
-  class GameState {
-  public:
+namespace MyGame {
+  struct GameState {
+
     virtual void update() = 0;
     virtual void render() = 0;
 

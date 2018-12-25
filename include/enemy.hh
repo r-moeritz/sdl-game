@@ -4,9 +4,8 @@
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
 
-namespace My {
-  class Enemy : public SDLGameObject {
-  public:
+namespace MyGame {
+  struct Enemy : public SDLGameObject {
 
     Enemy(const LoaderParams*, int);
 

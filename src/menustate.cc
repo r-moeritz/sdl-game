@@ -5,22 +5,24 @@
 #include "menubutton.hh"
 #include "gamestatemachine.hh"
 
-My::MenuState::MenuState()
+using namespace MyGame;
+
+MenuState::MenuState()
   : _pTextureManager(TextureManager::Instance()) {}
 
-void My::MenuState::update() {
+void MenuState::update() {
   for (auto i = 0; i != _gameObjects.size(); ++i) {
     _gameObjects[i]->update();
   }
 }
 
-void My::MenuState::render() {
+void MenuState::render() {
   for (auto i = 0; i != _gameObjects.size(); ++i) {
     _gameObjects[i]->draw();
   }
 }
 
-bool My::MenuState::onEnter() {
+bool MenuState::onEnter() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Entering MENU state...");
 
   if (!_pTextureManager->load("assets/button.png","playbutton",
@@ -39,7 +41,7 @@ bool My::MenuState::onEnter() {
   return true;
 }
 
-bool My::MenuState::onExit() {
+bool MenuState::onExit() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exiting MENU state...");
 
   for (auto i = 0; i != _gameObjects.size(); ++i) {
@@ -52,13 +54,13 @@ bool My::MenuState::onExit() {
   return true;
 }
 
-void My::MenuState::s_play() {
+void MenuState::s_play() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Play button clicked.");
   std::shared_ptr<GameState> pPlayState(new PlayState());
   GameStateMachine::Instance()->changeState(pPlayState);
 }
 
-void My::MenuState::s_exit() {
+void MenuState::s_exit() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exit button clicked.");
   Game::Instance()->quit();
 }

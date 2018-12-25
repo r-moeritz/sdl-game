@@ -6,9 +6,8 @@
 #include <string>
 #include "gamestate.hh"
 
-namespace My {
-  class PauseState : public GameState {
-  public:
+namespace MyGame {
+  struct PauseState : public GameState {
 
     virtual void update();
     virtual void render();

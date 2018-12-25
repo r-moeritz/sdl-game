@@ -3,9 +3,9 @@
 
 #include <cmath>
 
-namespace My {
-  class Vector2D {
-  public:
+namespace MyGame {
+  struct Vector2D {
+
     Vector2D(float x, float y) : _x(x), _y(y) {}
 
     void normalize();

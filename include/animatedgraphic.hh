@@ -4,9 +4,8 @@
 #include "sdlgameobject.hh"
 #include "loaderparams.hh"
 
-namespace My {
-  class AnimatedGraphic : public SDLGameObject {
-  public:
+namespace MyGame {
+  struct AnimatedGraphic : public SDLGameObject {
 
     AnimatedGraphic(const LoaderParams*, int, int);
 

@@ -8,11 +8,13 @@
 #include "pausestate.hh"
 #include "gameoverstate.hh"
 
-My::PlayState::PlayState()
+using namespace MyGame;
+
+PlayState::PlayState()
   : _pTextureManager(TextureManager::Instance()) {
 }
 
-void My::PlayState::update() {
+void PlayState::update() {
   if (InputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
     std::shared_ptr<GameState> pPauseState(new PauseState());
     GameStateMachine::Instance()->pushState(pPauseState);
@@ -32,13 +34,13 @@ void My::PlayState::update() {
   }
 }
 
-void My::PlayState::render() {
+void PlayState::render() {
   for (auto i = 0; i != _gameObjects.size(); ++i) {
     _gameObjects[i]->draw();
   }
 }
 
-bool My::PlayState::onEnter() {
+bool PlayState::onEnter() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Entering PLAY state...");
 
   if (!_pTextureManager->load("assets/helicopter.png", "helicopter",
@@ -62,7 +64,7 @@ bool My::PlayState::onEnter() {
   return true;
 }
 
-bool My::PlayState::onExit() {
+bool PlayState::onExit() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exiting PLAY state...");
 
   for (auto i = 0; i != _gameObjects.size(); ++i) {
@@ -74,7 +76,7 @@ bool My::PlayState::onExit() {
   return true;
 }
 
-bool My::PlayState::collision(std::shared_ptr<SDLGameObject> pA, std::shared_ptr<SDLGameObject> pB) {
+bool PlayState::collision(std::shared_ptr<SDLGameObject> pA, std::shared_ptr<SDLGameObject> pB) {
   // Sides of rect A
   auto leftA = pA->position().x();
   auto rightA = pA->position().x() + pA->width();

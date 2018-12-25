@@ -8,9 +8,8 @@
 #include "sdlgameobject.hh"
 #include "texturemanager.hh"
 
-namespace My {
-  class PlayState : public GameState {
-  public:
+namespace MyGame {
+  struct PlayState : public GameState {
 
     PlayState();
 

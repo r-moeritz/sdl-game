@@ -2,17 +2,19 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 
-My::TextureManager* My::TextureManager::s_pInstance = nullptr;
+using namespace MyGame;
 
-My::TextureManager* My::TextureManager::Instance() {
+TextureManager* TextureManager::s_pInstance = nullptr;
+
+TextureManager* TextureManager::Instance() {
     if (!s_pInstance) {
-        s_pInstance = new My::TextureManager();
+        s_pInstance = new TextureManager();
     }
     
     return s_pInstance;
 }
 
-bool My::TextureManager::load(
+bool TextureManager::load(
         std::string fileName,
         std::string id,
         SDL_Renderer* pRenderer
@@ -35,7 +37,7 @@ bool My::TextureManager::load(
     return true;
 }
 
-void My::TextureManager::draw(std::string id, int x, int y, int width, int height,
+void TextureManager::draw(std::string id, int x, int y, int width, int height,
         SDL_Renderer* pRenderer, SDL_RendererFlip flip) {
     SDL_Rect srcRect, destRect;
     
@@ -49,7 +51,7 @@ void My::TextureManager::draw(std::string id, int x, int y, int width, int heigh
         0, 0, flip);
 }
 
-void My::TextureManager::drawFrame(std::string id, int x, int y, int width, int height,
+void TextureManager::drawFrame(std::string id, int x, int y, int width, int height,
         int currentRow, int currentFrame, SDL_Renderer* pRenderer, 
         SDL_RendererFlip flip) {
     SDL_Rect srcRect, destRect;
@@ -65,6 +67,6 @@ void My::TextureManager::drawFrame(std::string id, int x, int y, int width, int 
         0, 0, flip);    
 }
 
-void My::TextureManager::clearFromTextureMap(std::string id) {
+void TextureManager::clearFromTextureMap(std::string id) {
     _textureMap.erase(id);
 }

@@ -2,23 +2,25 @@
 #include "game.hh"
 #include <string>
 
-My::InputHandler* My::InputHandler::s_pInstance = nullptr;
+using namespace MyGame;
 
-My::InputHandler* My::InputHandler::Instance() {
+InputHandler* InputHandler::s_pInstance = nullptr;
+
+InputHandler* InputHandler::Instance() {
   if (!s_pInstance) {
-    s_pInstance = new My::InputHandler();
+    s_pInstance = new InputHandler();
   }
 
   return s_pInstance;
 }
 
-My::InputHandler::InputHandler() : _mousePos(0, 0) {
+InputHandler::InputHandler() : _mousePos(0, 0) {
   for (auto i = 0; i != 3; ++i) {
     _mouseButtonStates.push_back(false);
   }
 }
 
-int My::InputHandler::y(int joy, int stick) const {
+int InputHandler::y(int joy, int stick) const {
   if (!_joystickValues.size()) return 0;
 
   if (stick == 1) {
@@ -31,7 +33,7 @@ int My::InputHandler::y(int joy, int stick) const {
   return 0;
 }
 
-int My::InputHandler::x(int joy, int stick) const {
+int InputHandler::x(int joy, int stick) const {
   if (!_joystickValues.size()) return 0;
 
   if (stick == 1) {
@@ -44,26 +46,26 @@ int My::InputHandler::x(int joy, int stick) const {
   return 0;
 }
 
-bool My::InputHandler::buttonState(int joy, int buttonNr) const {
+bool InputHandler::buttonState(int joy, int buttonNr) const {
   return _buttonStates[joy][buttonNr];
 }
 
-bool My::InputHandler::mouseButtonState(MouseButton button) const {
+bool InputHandler::mouseButtonState(MouseButton button) const {
   auto i = static_cast<int>(button);
   return _mouseButtonStates[i];
 }
 
-My::Vector2D My::InputHandler::mousePosition() const {
+Vector2D InputHandler::mousePosition() const {
   return _mousePos;
 }
 
-bool My::InputHandler::isKeyDown(SDL_Scancode key) const {
+bool InputHandler::isKeyDown(SDL_Scancode key) const {
   if (!_keyState) return false;
 
   return _keyState[key];
 }
 
-void My::InputHandler::initializeJoysticks() {
+void InputHandler::initializeJoysticks() {
   if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
   }
@@ -74,7 +76,7 @@ void My::InputHandler::initializeJoysticks() {
 
       if (joy) {
         _joysticks.push_back(joy);
-        _joystickValues.push_back(std::make_pair(new My::Vector2D(0, 0), new My::Vector2D(0, 0)));
+        _joystickValues.push_back(std::make_pair(new Vector2D(0, 0), new Vector2D(0, 0)));
 
         std::vector<bool> buttons;
         for (int k = 0; k != SDL_JoystickNumButtons(joy); ++k) {
@@ -98,7 +100,7 @@ void My::InputHandler::initializeJoysticks() {
   }
 }
 
-void My::InputHandler::clean() {
+void InputHandler::clean() {
   if (!_joysticksInitialized) return;
 
   for (auto i = 0; i != SDL_NumJoysticks(); ++i) {
@@ -106,13 +108,13 @@ void My::InputHandler::clean() {
   }
 }
 
-void My::InputHandler::update() {
+void InputHandler::update() {
   SDL_Event event;
 
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
     case SDL_QUIT:
-      My::Game::Instance()->quit();
+      Game::Instance()->quit();
       break;
 
     case SDL_JOYAXISMOTION:
@@ -141,7 +143,7 @@ void My::InputHandler::update() {
   }
 }
 
-void My::InputHandler::onJoystickAxisMove(const SDL_Event& event) {
+void InputHandler::onJoystickAxisMove(const SDL_Event& event) {
   auto whichOne = event.jaxis.which;
 
   // Move left stick left or right
@@ -197,17 +199,17 @@ void My::InputHandler::onJoystickAxisMove(const SDL_Event& event) {
   }
 }
 
-void My::InputHandler::onJoystickButtonUpOrDown(const SDL_Event& event) {
+void InputHandler::onJoystickButtonUpOrDown(const SDL_Event& event) {
   auto whichOne = event.jaxis.which;
   _buttonStates[whichOne][event.jbutton.button]
     = !_buttonStates[whichOne][event.jbutton.button];
 }
 
-void My::InputHandler::onKeyUpOrDown() {
+void InputHandler::onKeyUpOrDown() {
   _keyState = SDL_GetKeyboardState(0);
 }
 
-void My::InputHandler::onMouseButtonUpOrDown(const SDL_Event& event) {
+void InputHandler::onMouseButtonUpOrDown(const SDL_Event& event) {
   auto button = -1;
 
   switch (event.button.button) {
@@ -229,7 +231,7 @@ void My::InputHandler::onMouseButtonUpOrDown(const SDL_Event& event) {
   _mouseButtonStates[button] = !_mouseButtonStates[button];
 }
 
-void My::InputHandler::onMouseMove(const SDL_Event& event) {
+void InputHandler::onMouseMove(const SDL_Event& event) {
   _mousePos.setX(event.motion.x);
   _mousePos.setY(event.motion.y);
 }

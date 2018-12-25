@@ -5,24 +5,26 @@
 #include "menubutton.hh"
 #include "SDL2/SDL.h"
 
-My::GameOverState::GameOverState()
+using namespace MyGame;
+
+GameOverState::GameOverState()
   : _pTextureManager(TextureManager::Instance()),
     _pGame(Game::Instance()) {
 }
 
-void My::GameOverState::update() {
+void GameOverState::update() {
   for (auto i = 0; i != _gameObjects.size(); ++i) {
     _gameObjects[i]->update();
   }
 }
 
-void My::GameOverState::render() {
+void GameOverState::render() {
   for (auto i = 0; i != _gameObjects.size(); ++i) {
     _gameObjects[i]->draw();
   }
 }
 
-bool My::GameOverState::onEnter() {
+bool GameOverState::onEnter() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Entering GAMEOVER state...");
 
   if (!_pTextureManager->load("assets/gameover.png", "gameovertext",
@@ -54,7 +56,7 @@ bool My::GameOverState::onEnter() {
   return true;
 }
 
-bool My::GameOverState::onExit() {
+bool GameOverState::onExit() {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exiting GAMEOVER state...");
 
   for (auto i = 0; i != _gameObjects.size(); ++i) {
@@ -68,12 +70,12 @@ bool My::GameOverState::onExit() {
   return true;
 }
 
-void My::GameOverState::s_gameOverToMain() {
+void GameOverState::s_gameOverToMain() {
   std::shared_ptr<GameState> pMenuState(new MenuState());
   GameStateMachine::Instance()->changeState(pMenuState);
 }
 
-void My::GameOverState::s_restartPlay() {
+void GameOverState::s_restartPlay() {
   std::shared_ptr<GameState> pPlayState(new PlayState());
   GameStateMachine::Instance()->changeState(pPlayState);
 }

@@ -1,9 +1,11 @@
 #include "gamestatemachine.hh"
 #include "SDL2/SDL.h"
 
-My::GameStateMachine* My::GameStateMachine::s_pInstance = nullptr;
+using namespace MyGame;
 
-My::GameStateMachine* My::GameStateMachine::Instance() {
+GameStateMachine* GameStateMachine::s_pInstance = nullptr;
+
+GameStateMachine* GameStateMachine::Instance() {
   if (!s_pInstance) {
     s_pInstance = new GameStateMachine();
   }
@@ -11,17 +13,17 @@ My::GameStateMachine* My::GameStateMachine::Instance() {
   return s_pInstance;
 }
 
-My::GameStateMachine::GameStateMachine() {
+GameStateMachine::GameStateMachine() {
 
 }
 
-void My::GameStateMachine::changeState(std::shared_ptr<GameState> pNewState) {
+void GameStateMachine::changeState(std::shared_ptr<GameState> pNewState) {
   if (popState()) {
     pushState(pNewState);
   }
 }
 
-bool My::GameStateMachine::enterState(std::shared_ptr<GameState> pNewState) {
+bool GameStateMachine::enterState(std::shared_ptr<GameState> pNewState) {
   if (!_gameStates.empty()
       && currentState()->stateId() == pNewState->stateId()) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
@@ -41,7 +43,7 @@ bool My::GameStateMachine::enterState(std::shared_ptr<GameState> pNewState) {
   return res;
 }
 
-bool My::GameStateMachine::exitCurrentState() {
+bool GameStateMachine::exitCurrentState() {
   if (_gameStates.empty()) return true;
 
   auto res = currentState()->onExit();
@@ -55,7 +57,7 @@ bool My::GameStateMachine::exitCurrentState() {
   return res;
 }
 
-bool My::GameStateMachine::pushState(std::shared_ptr<GameState> pNewState) {
+bool GameStateMachine::pushState(std::shared_ptr<GameState> pNewState) {
   if (!enterState(pNewState)) return false;
 
   _gameStates.push_back(pNewState);
@@ -63,7 +65,7 @@ bool My::GameStateMachine::pushState(std::shared_ptr<GameState> pNewState) {
   return true;
 }
 
-bool My::GameStateMachine::popState() {
+bool GameStateMachine::popState() {
   if (_gameStates.empty()) return true;
 
   if (!exitCurrentState()) return false;;
@@ -73,22 +75,22 @@ bool My::GameStateMachine::popState() {
   return true;
 }
 
-std::shared_ptr<My::GameState> My::GameStateMachine::currentState() const {
+std::shared_ptr<GameState> GameStateMachine::currentState() const {
   return _gameStates.back();
 }
 
-void My::GameStateMachine::update() {
+void GameStateMachine::update() {
   if (!_gameStates.empty()) {
     currentState()->update();
   }
 }
 
-void My::GameStateMachine::render() {
+void GameStateMachine::render() {
   if (!_gameStates.empty()) {
     currentState()->render();
   }
 }
 
-void My::GameStateMachine::clean() {
+void GameStateMachine::clean() {
   _gameStates.clear();
 }
