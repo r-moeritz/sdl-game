@@ -1,6 +1,7 @@
 #ifndef LEVEL_HH
 #define LEVEL_HH
 
+#include "levelparser.hh"
 #include <vector>
 #include <memory>
 
@@ -13,7 +14,6 @@ namespace MyGame {
 
   struct Level {
 
-    Level();
     ~Level() {}
 
     void update();
@@ -23,6 +23,9 @@ namespace MyGame {
     std::vector<LayerPtr>& layers();
 
   private:
+
+    friend class LevelParser;
+    Level();
 
     std::vector<TilesetPtr> _tilesets;
     std::vector<LayerPtr> _layers;

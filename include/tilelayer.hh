@@ -6,17 +6,19 @@
 #include <memory>
 
 namespace MyGame {
-  struct TilesetPtr;
-  struct Vector2DPtr;
+  struct Tileset;
+  struct Vector2D;
+  using Vector2DPtr = std::shared_ptr<Vector2D>;
+  using TilesetPtr = std::shared_ptr<Tileset>;
 
   struct TileLayer : public Layer {
 
-    TileLayer(int tileSize, std::vector<TilesetPtr>& const tileSets);
+    TileLayer(int tileSize, std::vector<TilesetPtr> const& tileSets);
 
     virtual void update();
     virtual void render();
 
-    void setTileIDs(std::vector<std::vector<int>& const data) {
+    void setTileIDs(std::vector<std::vector<int>> const& data) {
       _tileIDs = data;
     }
 
@@ -24,7 +26,7 @@ namespace MyGame {
       _tileSize = tileSize;
     }
 
-    TilesetPtr getTilesetByID(int tileID);
+    TilesetPtr getTilesetByID(int tileID) const;
 
   private:
 
@@ -35,8 +37,8 @@ namespace MyGame {
     Vector2DPtr _pPosition;
     Vector2DPtr _pVelocity;
 
-    const std::vector<TilesetPtr> &_tilesets;
-    const std::vector<std::vector<int>> &_tileIDs;
+    std::vector<TilesetPtr> const& _tilesets;
+    std::vector<std::vector<int>> _tileIDs;
   };
 }
 
