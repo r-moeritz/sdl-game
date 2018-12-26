@@ -1,0 +1,6 @@
+[submodule "ext/cppcodec"]
+	path = ext/cppcodec
+	url = https://github.com/tplgy/cppcodec
+[submodule "ext/zstr"]
+	path = ext/zstr
+	url = https://github.com/mateidavid/zstr
