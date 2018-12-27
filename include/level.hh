@@ -12,23 +12,26 @@ namespace MyGame {
   using LayerPtr = std::shared_ptr<Layer>;
   using TilesetPtr = std::shared_ptr<Tileset>;
 
+  using TilesetPtrVectorPtr = std::shared_ptr<std::vector<TilesetPtr>>;
+  using LayerPtrVectorPtr = std::shared_ptr<std::vector<LayerPtr>>;
+
   struct Level {
 
-    ~Level() {}
+    Level();
+    ~Level();
+    Level(Level&&);
+    Level& operator=(Level&&);
 
     void update();
     void render();
 
-    std::vector<TilesetPtr>& tilesets();
-    std::vector<LayerPtr>& layers();
+    TilesetPtrVectorPtr tilesets();
+    LayerPtrVectorPtr layers();
 
   private:
 
-    friend class LevelParser;
-    Level();
-
-    std::vector<TilesetPtr> _tilesets;
-    std::vector<LayerPtr> _layers;
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
   };
 }
 
