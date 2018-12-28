@@ -1,6 +1,8 @@
 #include "util.hh"
 #include <cppcodec/base64_rfc4648.hpp>
 #include <vector>
+#include <algorithm>
+#include <string>
 
 std::string MyGame::trim(std::string const& s) {
   auto wsfront = std::find_if_not(s.begin(),

@@ -2,6 +2,7 @@
 #include "tileset.hh"
 #include "level.hh"
 #include "texturemanager.hh"
+#include "tilelayer.hh"
 #include "game.hh"
 #include "util.hh"
 #include <tinyxml2.h>
@@ -46,9 +47,9 @@ private:
   void parseTilesets(XMLElement* pTilesetRoot,
                      TilesetPtrVectorPtr pTilesets) {
     // Add tileset to texture manager
-    TextureManager::instance()->load(pTilesetRoot->FirstChildElement()->Attribute("source"),
+    TextureManager::Instance()->load(pTilesetRoot->FirstChildElement()->Attribute("source"),
                                      pTilesetRoot->Attribute("name"),
-                                     Game::instance()->renderer());
+                                     Game::Instance()->renderer());
 
     // Create a tileset
     auto pTs = std::make_shared<Tileset>();
@@ -69,8 +70,6 @@ private:
   void parseTileLayer(XMLElement* pTileElement,
                       LayerPtrVectorPtr pLayers,
                       TilesetPtrVectorPtr pTilesets) {
-    using base64 = cppcodec::base64_rfc4648;
-
     auto pTileLayer = std::make_shared<TileLayer>(_tileSize, pTilesets);
 
     // Tile data
@@ -95,11 +94,11 @@ private:
     auto encodedIds = trim(textNode->Value());
     auto decodedIds = decodeBase64(encodedIds);
 
-    uLongf numGids = _width * _height * sizeof(int);
+    auto numGids = _width * _height * sizeof(int);
     std::vector<unsigned> gids = { numGids };
-    uncompress(static_cast<Bytef*>(&gids[0]),
+    uncompress(reinterpret_cast<Bytef*>(&gids[0]),
                &numGids,
-               static_cast<Bytef*>(decodedIds.c_str()),
+               reinterpret_cast<Bytef*>(const_cast<char*>(decodedIds.c_str())),
                decodedIds.size());
 
     std::vector<int> layerRow = { _width };
