@@ -1,13 +1,17 @@
 #ifndef GAME_HH
 #define GAME_HH
 
-#include <vector>
-#include "SDL2/SDL.h"
-#include "inputhandler.hh"
-#include "gamestatemachine.hh"
+#include <memory>
+
+struct SDL_Renderer;
 
 namespace MyGame {
+
   struct Game {
+
+    ~Game();
+    Game(Game&&);
+    Game& operator=(Game&&);
 
     bool init(const char* title, int xpos, int ypos,
               int height, int width, bool fullscreen);
@@ -17,23 +21,17 @@ namespace MyGame {
     void handleEvents();
     void quit();
 
-    inline bool running() const { return _running; }
-    inline SDL_Renderer* renderer() const { return _pRenderer; }
+    bool running() const;
+    SDL_Renderer* renderer() const;
+
     static Game* Instance();
 
   private:
 
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
+
     Game();
-
-    bool _running;
-
-    // Owned by SDL
-    SDL_Window* _pWindow;
-    SDL_Renderer* _pRenderer;
-
-    // Need to be manually deleted
-    InputHandler* _pInputHandler;
-    GameStateMachine* _pGameStateMachine;
 
     static Game* s_pInstance;
   };
