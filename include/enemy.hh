@@ -1,20 +1,31 @@
 #ifndef ENEMY_HH
 #define ENEMY_HH
 
-#include "sdlgameobject.hh"
-#include "loaderparams.hh"
+#include "gameobject.hh"
+#include <memory>
 
 namespace MyGame {
-  struct Enemy : public SDLGameObject {
+  struct LoaderParams;
+
+  struct Enemy : public GameObject {
 
     Enemy(const LoaderParams*, int);
+    ~Enemy();
+    Enemy(Enemy&&);
+    Enemy& operator=(Enemy&&);
 
-    virtual void update();
-    virtual void clean();
+    void draw() override;
+    void update() override;
+    void clean() override;
+
+    Vector2D position() const override;
+    int width() const override;
+    int height() const override;
 
   private:
 
-    int _numFrames;
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
   };
 }
 

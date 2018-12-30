@@ -3,6 +3,8 @@
 #include "gamestatemachine.hh"
 #include "texturemanager.hh"
 #include "menubutton.hh"
+#include "game.hh"
+#include "loaderparams.hh"
 #include "SDL2/SDL.h"
 
 using namespace MyGame;
@@ -34,10 +36,8 @@ bool PauseState::onEnter() {
     return false;
   }
 
-  std::shared_ptr<GameObject> pauseButton(new MenuButton(new LoaderParams(200, 100, 200, 80,
-                                                                          "mainbutton"), s_main));
-  std::shared_ptr<GameObject> resumeButton(new MenuButton(new LoaderParams(200, 300, 200, 80,
-                                                                           "resumebutton"), s_resume));
+  std::shared_ptr<GameObject> pauseButton(new MenuButton(new LoaderParams(200, 100, 200, 80, "mainbutton"), s_main));
+  std::shared_ptr<GameObject> resumeButton(new MenuButton(new LoaderParams(200, 300, 200, 80, "resumebutton"), s_resume));
 
   _gameObjects.push_back(pauseButton);
   _gameObjects.push_back(resumeButton);

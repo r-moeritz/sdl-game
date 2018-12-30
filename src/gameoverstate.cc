@@ -3,6 +3,7 @@
 #include "playstate.hh"
 #include "animatedgraphic.hh"
 #include "menubutton.hh"
+#include "loaderparams.hh"
 #include "SDL2/SDL.h"
 
 using namespace MyGame;

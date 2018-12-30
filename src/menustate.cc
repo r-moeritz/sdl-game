@@ -1,9 +1,10 @@
 #include "menustate.hh"
 #include "playstate.hh"
-#include "SDL2/SDL.h"
 #include "game.hh"
 #include "menubutton.hh"
 #include "gamestatemachine.hh"
+#include "loaderparams.hh"
+#include "SDL2/SDL.h"
 
 using namespace MyGame;
 

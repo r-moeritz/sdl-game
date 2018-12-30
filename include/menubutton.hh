@@ -1,27 +1,33 @@
 #ifndef MENUBUTTON_HH
 #define MENUBUTTON_HH
 
+#include "gameobject.hh"
 #include <functional>
-#include "sdlgameobject.hh"
-#include "loaderparams.hh"
+#include <memory>
 
 namespace MyGame {
-  struct MenuButton : public SDLGameObject {
+  struct LoaderParams;
 
-    MenuButton(const LoaderParams*, std::function<void()>);
+  struct MenuButton : public GameObject {
 
-    virtual void draw();
-    virtual void update();
-    virtual void clean();
+    MenuButton(const LoaderParams*,
+               std::function<void()>);
+    ~MenuButton();
+    MenuButton(MenuButton&&);
+    MenuButton& operator=(MenuButton&&);
+
+    void draw() override;
+    void update() override;
+    void clean() override;
+
+    Vector2D position() const override;
+    int width() const override;
+    int height() const override;
 
   private:
 
-    enum class ButtonState { mouseOut, mouseOver, clicked };
-    std::function<void()> _callback;
-    bool _released;
-
-    void menuToPlay();
-    void exitFromMenu();
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
   };
 }
 

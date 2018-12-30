@@ -15,13 +15,13 @@ namespace MyGame {
 
     GameOverState();
 
-    virtual void update();
-    virtual void render();
+    void update() override;
+    void render() override;
 
-    virtual bool onEnter();
-    virtual bool onExit();
+    bool onEnter() override;
+    bool onExit() override;
 
-    virtual std::string stateId() const {
+    std::string stateId() const override {
       return "GAMEOVER";
     }
 

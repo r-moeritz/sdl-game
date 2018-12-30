@@ -1,7 +1,7 @@
 #ifndef GAMEOBJECT_HH
 #define GAMEOBJECT_HH
 
-#include "loaderparams.hh"
+#include "vector2d.hh"
 
 namespace MyGame {
   struct GameObject {
@@ -9,11 +9,10 @@ namespace MyGame {
     virtual void draw() = 0;
     virtual void update() = 0;
     virtual void clean() = 0;
-        
-  protected:
 
-    GameObject(const LoaderParams*) {}
-    virtual ~GameObject() {}
+    virtual Vector2D position() const = 0;
+    virtual int width() const = 0;
+    virtual int height() const = 0;
   };
 }
 

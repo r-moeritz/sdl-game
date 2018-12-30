@@ -1,21 +1,31 @@
 #ifndef PLAYER_HH
 #define PLAYER_HH
 
-#include "sdlgameobject.hh"
-#include "loaderparams.hh"
+#include "gameobject.hh"
+#include <memory>
 
 namespace MyGame {
-  struct Player : public SDLGameObject {
+  struct LoaderParams;
+
+  struct Player : public GameObject {
 
     Player(const LoaderParams*, int);
+    ~Player();
+    Player(Player&&);
+    Player& operator=(Player&&);
 
-    virtual void update();
-    virtual void clean();
+    void draw() override;
+    void update() override;
+    void clean() override;
+
+    Vector2D position() const override;
+    int width() const override;
+    int height() const override;
 
   private:
 
-    int _numFrames;
-    void handleInput();
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
   };
 }
 

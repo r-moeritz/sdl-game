@@ -3,6 +3,7 @@
 #include "game.hh"
 #include "player.hh"
 #include "enemy.hh"
+#include "loaderparams.hh"
 #include "inputhandler.hh"
 #include "gamestatemachine.hh"
 #include "pausestate.hh"
@@ -24,9 +25,8 @@ void PlayState::update() {
     _gameObjects[i]->update();
   }
 
-  // TODO This feels very hacky!
-  auto p1 = std::dynamic_pointer_cast<SDLGameObject>(_gameObjects[0]);
-  auto p2 = std::dynamic_pointer_cast<SDLGameObject>(_gameObjects[1]);
+  auto p1 = _gameObjects[0];
+  auto p2 = _gameObjects[1];
 
   if (collision(p1, p2)) {
     std::shared_ptr<GameState> pGameOverState(new GameOverState());
@@ -53,10 +53,8 @@ bool PlayState::onEnter() {
     return false;
   }
 
-  std::shared_ptr<GameObject> player(new Player(new LoaderParams(500, 100, 128, 55,
-                                                                 "helicopter"), 6));
-  std::shared_ptr<GameObject> enemy(new Enemy(new LoaderParams(100, 100, 128, 55,
-                                                               "helicopter2"), 6));
+  std::shared_ptr<GameObject> player = std::make_shared<Player>(new LoaderParams(500, 100, 128, 55, "helicopter"), 6);
+std::shared_ptr<GameObject> enemy = std::make_shared<Enemy>(new LoaderParams(100, 100, 128, 55, "helicopter2"), 6);
 
   _gameObjects.push_back(player);
   _gameObjects.push_back(enemy);
@@ -76,7 +74,8 @@ bool PlayState::onExit() {
   return true;
 }
 
-bool PlayState::collision(std::shared_ptr<SDLGameObject> pA, std::shared_ptr<SDLGameObject> pB) {
+bool PlayState::collision(std::shared_ptr<GameObject> pA,
+                          std::shared_ptr<GameObject> pB) {
   // Sides of rect A
   auto leftA = pA->position().x();
   auto rightA = pA->position().x() + pA->width();

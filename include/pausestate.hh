@@ -9,12 +9,12 @@
 namespace MyGame {
   struct PauseState : public GameState {
 
-    virtual void update();
-    virtual void render();
-    virtual bool onEnter();
-    virtual bool onExit();
+    void update() override;
+    void render() override;
+    bool onEnter() override;
+    bool onExit() override;
 
-    virtual std::string stateId() const {
+    std::string stateId() const override {
       return "PAUSE";
     }
 
