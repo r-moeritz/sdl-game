@@ -1,20 +1,24 @@
 #ifndef GAMESTATEMACHINE_HH
 #define GAMESTATEMACHINE_HH
 
-#include "gamestate.hh"
-#include <vector>
 #include <memory>
-#include <string>
 
 namespace MyGame {
+  struct GameState;
+  using GameStatePtr = std::shared_ptr<GameState>;
+
   struct GameStateMachine {
+
+    ~GameStateMachine();
+    GameStateMachine(GameStateMachine&&);
+    GameStateMachine& operator=(GameStateMachine&&);
 
     void update();
     void render();
     void clean();
 
-    void changeState(std::shared_ptr<GameState>);
-    bool pushState(std::shared_ptr<GameState>);
+    void changeState(GameStatePtr);
+    bool pushState(GameStatePtr);
     bool popState();
 
     static GameStateMachine* Instance();
@@ -23,13 +27,10 @@ namespace MyGame {
 
     GameStateMachine();
 
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
+
     static GameStateMachine* s_pInstance;
-
-    std::vector<std::shared_ptr<GameState>> _gameStates;
-    std::shared_ptr<GameState> currentState() const;
-
-    bool enterState(std::shared_ptr<GameState>);
-    bool exitCurrentState();
   };
 }
 
