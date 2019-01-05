@@ -1,7 +1,6 @@
 #include "playstate.hh"
 #include "game.hh"
-#include "player.hh"
-#include "enemy.hh"
+#include "levelparser.hh"
 #include "loaderparams.hh"
 #include "inputhandler.hh"
 #include "gamestatemachine.hh"
@@ -9,12 +8,14 @@
 #include "gameoverstate.hh"
 #include "gameobject.hh"
 #include "texturemanager.hh"
+#include "level.hh"
 #include "SDL2/SDL.h"
 #include <vector>
 
 using namespace MyGame;
 
 using GameObjectPtr = std::shared_ptr<GameObject>;
+using LevelPtr = std::shared_ptr<Level>;
 
 struct PlayState::Impl {
 
@@ -22,52 +23,19 @@ struct PlayState::Impl {
     : _pTextureManager(TextureManager::Instance()) {}
 
   void update() {
-    if (InputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
-      std::shared_ptr<GameState> pPauseState(new PauseState());
-      GameStateMachine::Instance()->pushState(pPauseState);
-    }
-
-    for (auto i = 0; i != _gameObjects.size(); ++i) {
-      _gameObjects[i]->update();
-    }
-
-    auto p1 = _gameObjects[0];
-    auto p2 = _gameObjects[1];
-
-    if (collision(p1, p2)) {
-      std::shared_ptr<GameState> pGameOverState
-        = std::make_shared<GameOverState>();
-      GameStateMachine::Instance()->pushState(pGameOverState);
-    }
+    // TODO
   }
 
   void render() {
-    for (auto i = 0; i != _gameObjects.size(); ++i) {
-      _gameObjects[i]->draw();
-    }
+    _pLevel->render();
   }
 
   bool onEnter() {
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION,
                  "Entering PLAY state...");
 
-    if (!_pTextureManager->load("assets/helicopter.png", "helicopter", Game::Instance()->renderer())) {
-      return false;
-    }
-
-    if (!_pTextureManager->load("assets/helicopter2.png", "helicopter2", Game::Instance()->renderer())) {
-      return false;
-    }
-
-    std::shared_ptr<GameObject> player
-      = std::make_shared<Player>(std::make_shared<LoaderParams>(500, 100, 128, 55, "helicopter"),
-                                 6);
-    std::shared_ptr<GameObject> enemy
-      = std::make_shared<Enemy>(std::make_shared<LoaderParams>(100, 100, 128, 55, "helicopter2"),
-                                6);
-
-    _gameObjects.push_back(player);
-    _gameObjects.push_back(enemy);
+    LevelParser lp;
+    _pLevel = lp.parseLevel("assets/map1.tmx");
 
     return true;
   }
@@ -76,11 +44,7 @@ struct PlayState::Impl {
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION,
                  "Exiting PLAY state...");
 
-    for (auto i = 0; i != _gameObjects.size(); ++i) {
-      _gameObjects[i]->clean();
-    }
-
-    _pTextureManager->clearFromTextureMap("helicopter");
+    // TODO
 
     return true;
   }
@@ -111,6 +75,7 @@ private:
 
   std::vector<GameObjectPtr> _gameObjects;
   TextureManager* _pTextureManager;
+  LevelPtr _pLevel;
 };
 
 PlayState::PlayState()

@@ -46,8 +46,12 @@ private:
 
   void parseTilesets(XMLElement* pTilesetRoot,
                      TilesetPtrVectorPtr pTilesets) {
+    std::string assetPath = "assets/";
+
     // Add tileset to texture manager
-    TextureManager::Instance()->load(pTilesetRoot->FirstChildElement()->Attribute("source"),
+    std::string fileName = pTilesetRoot->FirstChildElement()->Attribute("source");
+    auto fullPath = assetPath + fileName;
+    TextureManager::Instance()->load(fullPath,
                                      pTilesetRoot->Attribute("name"),
                                      Game::Instance()->renderer());
 

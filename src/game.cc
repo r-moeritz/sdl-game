@@ -27,6 +27,9 @@ struct Game::Impl {
       return false;
     }
 
+    _width = width;
+    _height = height;
+
     int imgFlags = IMG_INIT_PNG;
     if (!( IMG_Init( imgFlags ) & imgFlags )) {
       return false;
@@ -87,6 +90,14 @@ struct Game::Impl {
     _running = false;
   }
 
+  int width() const {
+    return _width;
+  }
+
+  int height() const {
+    return _height;
+  }
+
   bool running() const {
     return _running;
   }
@@ -97,6 +108,8 @@ struct Game::Impl {
 
 private:
 
+  int _width;
+  int _height;
   bool _running;
 
   // Owned by SDL
@@ -148,6 +161,14 @@ void Game::clean() {
 
 void Game::quit() {
   _pImpl->quit();
+}
+
+int Game::width() const {
+  return _pImpl->width();
+}
+
+int Game::height() const {
+  return _pImpl->height();
 }
 
 bool Game::running() const {

@@ -21,6 +21,8 @@ namespace MyGame {
     void handleEvents();
     void quit();
 
+    int width() const;
+    int height() const;
     bool running() const;
     SDL_Renderer* renderer() const;
 

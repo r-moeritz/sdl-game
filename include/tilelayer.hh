@@ -20,8 +20,8 @@ namespace MyGame {
     TileLayer(TileLayer&&);
     TileLayer& operator=(TileLayer&&);
 
-    virtual void update();
-    virtual void render();
+    void update() override;
+    void render() override;
 
     void setTileIDs(std::vector<std::vector<int>> const& data);
     void setTileSize(int tileSize);
