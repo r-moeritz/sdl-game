@@ -3,15 +3,15 @@
 
 #include <memory>
 #include <string>
-#include <vector>
-#include "gameobject.hh"
 #include "gamestate.hh"
-#include "texturemanager.hh"
 
 namespace MyGame {
   struct MenuState : public GameState {
 
     MenuState();
+    ~MenuState();
+    MenuState(MenuState&&);
+    MenuState& operator=(MenuState&&);
 
     void update() override;
     void render() override;
@@ -19,17 +19,12 @@ namespace MyGame {
     bool onEnter() override;
     bool onExit() override;
 
-    std::string stateId() const override {
-      return "MENU";
-    }
+    std::string stateId() const override;
 
   private:
 
-    static void s_play();
-    static void s_exit();
-
-    std::vector<std::shared_ptr<GameObject>> _gameObjects;
-    TextureManager* _pTextureManager;
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
   };
 }
 

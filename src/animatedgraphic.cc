@@ -7,7 +7,7 @@ using namespace MyGame;
 
 struct AnimatedGraphic::Impl : public SDLGameObject {
 
-  Impl(const LoaderParams* pParams,
+  Impl(std::shared_ptr<LoaderParams> pParams,
        int numFrames,
        int animSpeed)
     : SDLGameObject(pParams),
@@ -30,12 +30,10 @@ private:
   int _animSpeed;
 };
 
-AnimatedGraphic::AnimatedGraphic(const LoaderParams* pParams,
+AnimatedGraphic::AnimatedGraphic(std::shared_ptr<LoaderParams> pParams,
                                  int numFrames,
                                  int animSpeed)
-  : _pImpl(std::make_unique<Impl>(pParams,
-                                  numFrames,
-                                  animSpeed)) {}
+  : _pImpl(std::make_unique<Impl>(pParams, numFrames, animSpeed)) {}
 
 AnimatedGraphic::~AnimatedGraphic() = default;
 AnimatedGraphic::AnimatedGraphic(AnimatedGraphic&&) = default;

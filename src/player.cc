@@ -8,7 +8,7 @@ using namespace MyGame;
 
 struct Player::Impl : public SDLGameObject {
 
-  Impl(const LoaderParams* pParams, int numFrames)
+  Impl(std::shared_ptr<LoaderParams> pParams, int numFrames)
     : SDLGameObject(pParams),
       _numFrames(numFrames) {}
 
@@ -41,7 +41,7 @@ private:
   }
 };
 
-Player::Player(const LoaderParams* pParams, int numFrames)
+Player::Player(std::shared_ptr<LoaderParams> pParams, int numFrames)
   : _pImpl(std::make_unique<Impl>(pParams, numFrames)) {}
 
 Player::~Player() = default;

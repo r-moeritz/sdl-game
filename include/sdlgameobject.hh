@@ -24,7 +24,7 @@ namespace MyGame {
 
   protected:
 
-    SDLGameObject(const LoaderParams*);
+    SDLGameObject(std::shared_ptr<LoaderParams>);
 
     Vector2D& velocity();
     void velocity(Vector2D const&);

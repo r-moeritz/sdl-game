@@ -54,11 +54,14 @@ struct GameOverState::Impl {
     }
 
     std::shared_ptr<GameObject> pGameOverText
-      = std::make_shared<AnimatedGraphic>(new LoaderParams(200, 100, 190, 30, "gameovertext"), 2, 2);
+      = std::make_shared<AnimatedGraphic>(std::make_shared<LoaderParams>(200, 100, 190, 30, "gameovertext"),
+                                          2, 2);
     std::shared_ptr<GameObject> pMainButton
-      = std::make_shared<MenuButton>(new LoaderParams(200, 200, 200, 80, "mainbutton"), s_gameOverToMain);
+      = std::make_shared<MenuButton>(std::make_shared<LoaderParams>(200, 200, 200, 80, "mainbutton"),
+                                     s_gameOverToMain);
     std::shared_ptr<GameObject> pRestartButton
-      = std::make_shared<MenuButton>(new LoaderParams(200, 300, 200, 80, "restartbutton"), s_restartPlay);
+      = std::make_shared<MenuButton>(std::make_shared<LoaderParams>(200, 300, 200, 80, "restartbutton"),
+                                     s_restartPlay);
 
     _gameObjects.push_back(pGameOverText);
     _gameObjects.push_back(pMainButton);

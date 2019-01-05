@@ -7,7 +7,7 @@ using namespace MyGame;
 
 struct MenuButton::Impl : public SDLGameObject {
 
-  Impl(const LoaderParams* pParams,
+  Impl(std::shared_ptr<LoaderParams> pParams,
        std::function<void()> callback)
     : SDLGameObject(pParams),
       _callback(callback) {}
@@ -49,7 +49,7 @@ private:
   bool _released;
 };
 
-MenuButton::MenuButton(const LoaderParams* pParams,
+MenuButton::MenuButton(std::shared_ptr<LoaderParams> pParams,
                        std::function<void()> callback)
   : _pImpl(std::make_unique<Impl>(pParams, callback)) {}
 

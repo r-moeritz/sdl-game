@@ -9,7 +9,7 @@ namespace MyGame {
 
   struct Player : public GameObject {
 
-    Player(const LoaderParams*, int);
+    Player(std::shared_ptr<LoaderParams>, int);
     ~Player();
     Player(Player&&);
     Player& operator=(Player&&);

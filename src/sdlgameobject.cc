@@ -9,7 +9,7 @@ using namespace MyGame;
 
 struct SDLGameObject::Impl {
 
-  Impl(const LoaderParams* pParams)
+  Impl(std::shared_ptr<LoaderParams> pParams)
     : _pTextureMgr(TextureManager::Instance()),
       _pGame(Game::Instance()),
       _position(pParams->x(), pParams->y()),
@@ -100,7 +100,7 @@ private:
   Game* _pGame;
 };
 
-SDLGameObject::SDLGameObject(const LoaderParams* pParams)
+SDLGameObject::SDLGameObject(std::shared_ptr<LoaderParams> pParams)
   : _pImpl(std::make_unique<Impl>(pParams)) {}
 
 SDLGameObject::~SDLGameObject() = default;

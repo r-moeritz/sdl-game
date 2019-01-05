@@ -1,29 +1,29 @@
 #ifndef PAUSESTATE_HH
 #define PAUSESTATE_HH
 
-#include <memory>
-#include <vector>
 #include <string>
+#include <memory>
 #include "gamestate.hh"
 
 namespace MyGame {
   struct PauseState : public GameState {
+
+    PauseState();
+    ~PauseState();
+    PauseState(PauseState&&);
+    PauseState& operator=(PauseState&&);
 
     void update() override;
     void render() override;
     bool onEnter() override;
     bool onExit() override;
 
-    std::string stateId() const override {
-      return "PAUSE";
-    }
+    std::string stateId() const override;
 
   private:
 
-    static void s_main();
-    static void s_resume();
-
-    std::vector<std::shared_ptr<GameObject>> _gameObjects;
+    struct Impl;
+    std::unique_ptr<Impl> _pImpl;
   };
 }
 

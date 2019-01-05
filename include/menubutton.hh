@@ -10,7 +10,7 @@ namespace MyGame {
 
   struct MenuButton : public GameObject {
 
-    MenuButton(const LoaderParams*,
+    MenuButton(std::shared_ptr<LoaderParams>,
                std::function<void()>);
     ~MenuButton();
     MenuButton(MenuButton&&);

@@ -7,9 +7,8 @@ using namespace MyGame;
 
 struct Enemy::Impl : public SDLGameObject {
 
-  Impl(const LoaderParams* pParams, int numFrames)
-    : SDLGameObject(pParams),
-      _numFrames(numFrames) {
+  Impl(std::shared_ptr<LoaderParams> pParams, int numFrames)
+    : SDLGameObject(pParams), _numFrames(numFrames) {
     auto v = velocity();
     v.setY(2);
     v.setX(0.001);
@@ -36,7 +35,7 @@ private:
   int _numFrames;
 };
 
-Enemy::Enemy(const LoaderParams* pParams, int numFrames)
+Enemy::Enemy(std::shared_ptr<LoaderParams> pParams, int numFrames)
   : _pImpl(std::make_unique<Impl>(pParams, numFrames)) {}
 
 Enemy::~Enemy() = default;

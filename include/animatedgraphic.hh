@@ -9,7 +9,7 @@ namespace MyGame {
 
   struct AnimatedGraphic : public GameObject {
 
-    AnimatedGraphic(const LoaderParams*, int, int);
+    AnimatedGraphic(std::shared_ptr<LoaderParams>, int, int);
     ~AnimatedGraphic();
     AnimatedGraphic(AnimatedGraphic&&);
     AnimatedGraphic& operator=(AnimatedGraphic&&);
