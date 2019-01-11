@@ -13,7 +13,7 @@ struct TileLayer::Impl {
       _position(0,0),
       _velocity(0,0),
       _pTextureManager(TextureManager::Instance()) {
-    _numColumns = (Game::Instance()->width() / _tileSize);
+    _numColumns = (Game::Instance()->width() / _tileSize) + 1;
     _numRows = (Game::Instance()->height() / _tileSize);
   }
 
@@ -39,14 +39,14 @@ struct TileLayer::Impl {
         --id;
 
         _pTextureManager->drawTile(pTs->name,
-                                   2,
-                                   2,
+                                   pTs->margin,
+                                   pTs->spacing,
                                    (k * _tileSize) - x2,
                                    (i * _tileSize) - y2,
                                    _tileSize,
                                    _tileSize,
-                                   (id - (pTs->firstGridID - 1)) / _numColumns,
-                                   (id - (pTs->firstGridID - 1)) % _numColumns,
+                                   (id - (pTs->firstGridID - 1)) / pTs->numColumns,
+                                   (id - (pTs->firstGridID - 1)) % pTs->numColumns,
                                    Game::Instance()->renderer());
       }
     }
