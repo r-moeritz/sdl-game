@@ -1,8 +1,6 @@
 #include "util.hh"
-#include <cppcodec/base64_rfc4648.hpp>
-#include <vector>
+#include <cppcodec/base64_url_unpadded.hpp>
 #include <algorithm>
-#include <string>
 
 std::string MyGame::trim(std::string const& s) {
   auto wsfront = std::find_if_not(s.begin(),
@@ -14,9 +12,8 @@ std::string MyGame::trim(std::string const& s) {
                                       [](int c){return std::isspace(c);}).base());
 }
 
-std::string MyGame::decodeBase64(std::string const& encoded) {
-  using base64 = cppcodec::base64_rfc4648;
+std::vector<uint8_t> MyGame::decodeBase64(std::string const& encoded) {
+  using base64 = cppcodec::base64_url_unpadded;
 
-  auto decoded = base64::decode<std::vector<char>>(encoded);
-  return std::string(decoded.begin(), decoded.end());
+  return base64::decode<std::vector<uint8_t>>(encoded);
 }

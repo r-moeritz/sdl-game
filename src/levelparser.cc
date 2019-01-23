@@ -98,16 +98,17 @@ private:
     auto encodedIds = trim(textNode->Value());
     auto decodedIds = decodeBase64(encodedIds);
 
-    auto idSize = _width * _height * sizeof(int);
-    std::vector<int> ids = { _width * _height };
-    uncompress(reinterpret_cast<Bytef*>(&ids[0]),
-               &idSize,
-               reinterpret_cast<const Bytef*>(decodedIds.c_str()),
-               decodedIds.size());
+    auto decodedIdsSize = decodedIds.size();
+    auto idsSize = _width * _height * sizeof(int);
+    std::vector<int> ids(_width * _height);
 
-    std::vector<int> layerRow = { _width };
+    auto rc = uncompress2(reinterpret_cast<Bytef*>(&ids[0]),
+                          &idsSize,
+                          reinterpret_cast<const Bytef*>(&decodedIds[0]),
+                          &decodedIdsSize);
 
     for (auto r = 0; r != _height; ++r) {
+      std::vector<int> layerRow(_width);
       data.push_back(layerRow);
 
       for (auto c = 0; c != _width; ++c) {

@@ -13,7 +13,7 @@ struct TileLayer::Impl {
       _position(0,0),
       _velocity(0,0),
       _pTextureManager(TextureManager::Instance()) {
-    _numColumns = (Game::Instance()->width() / _tileSize) + 1;
+    _numColumns = (Game::Instance()->width() / _tileSize);
     _numRows = (Game::Instance()->height() / _tileSize);
   }
 
@@ -30,7 +30,7 @@ struct TileLayer::Impl {
 
     for (auto i = 0; i != _numRows; ++i) {
       for (auto k = 0; k != _numColumns; ++k) {
-        auto id = _tileIDs[i + y][k + x];
+        auto id = _tileIDs[k + x][i + y];
 
         if (id == 0) continue;
 
