@@ -1,5 +1,5 @@
 #include "util.hh"
-#include <cppcodec/base64_url_unpadded.hpp>
+#include <cppcodec/base64_rfc4648.hpp>
 #include <algorithm>
 
 std::string MyGame::trim(std::string const& s) {
@@ -13,7 +13,7 @@ std::string MyGame::trim(std::string const& s) {
 }
 
 std::vector<uint8_t> MyGame::decodeBase64(std::string const& encoded) {
-  using base64 = cppcodec::base64_url_unpadded;
+  using base64 = cppcodec::base64_rfc4648;
 
   return base64::decode<std::vector<uint8_t>>(encoded);
 }

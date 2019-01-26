@@ -22,15 +22,15 @@ struct TileLayer::Impl {
   }
 
   void render() {
-    auto x = int(_position.x()) / _tileSize;
-    auto y = int(_position.y()) / _tileSize;
+    auto x = _position.x() / _tileSize;
+    auto y = _position.y() / _tileSize;
 
     auto x2 = int(_position.x()) % _tileSize;
     auto y2 = int(_position.y()) % _tileSize;
 
     for (auto i = 0; i != _numRows; ++i) {
       for (auto k = 0; k != _numColumns; ++k) {
-        auto id = _tileIDs[k + x][i + y];
+        auto id = _tileIDs[i+y][k+x];
 
         if (id == 0) continue;
 
@@ -61,8 +61,18 @@ struct TileLayer::Impl {
   }
 
   TilesetPtr getTilesetByID(int tileID) const {
-    // TODO
-    return nullptr;
+    for (auto i = 0; i != _pTilesets->size(); ++i) {
+      if (i + 1 > _pTilesets->size() - 1) {
+        return (*_pTilesets)[i];
+      }
+
+      if (tileID >= (*_pTilesets)[i]->firstGridID
+          && tileID < (*_pTilesets)[i+1]->firstGridID) {
+        return (*_pTilesets)[i];
+      }
+    }
+
+    return std::make_shared<Tileset>();
   }
 
 private:

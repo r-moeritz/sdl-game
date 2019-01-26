@@ -17,8 +17,8 @@ struct Game::Impl {
   bool init(const char* title,
             int xpos,
             int ypos,
-            int height,
             int width,
+            int height,
             bool fullscreen) {
     // Don't call SDL_Init and ÍMG_Init on Android,
     // because they aren't necessary (and don't work).
@@ -42,7 +42,7 @@ struct Game::Impl {
     }
 
     _pWindow = SDL_CreateWindow(title, xpos, ypos,
-                                height, width, flags);
+                                width, height, flags);
     if (!_pWindow) {
       return false;
     }
@@ -138,9 +138,9 @@ Game::Game(Game&&) = default;
 Game& Game::operator=(Game&&) = default;
 
 bool Game::init(const char* title, int xpos, int ypos,
-                int height, int width, bool fullscreen) {
-  return _pImpl->init(title, xpos, ypos, height,
-                      width, fullscreen);
+                int width, int height, bool fullscreen) {
+  return _pImpl->init(title, xpos, ypos, width, height,
+                      fullscreen);
 }
 
 void Game::handleEvents() {

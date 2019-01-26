@@ -14,7 +14,7 @@ namespace MyGame {
     Game& operator=(Game&&);
 
     bool init(const char* title, int xpos, int ypos,
-              int height, int width, bool fullscreen);
+              int width, int height, bool fullscreen);
     void render();
     void clean();
     void update();
