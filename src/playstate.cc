@@ -23,7 +23,7 @@ struct PlayState::Impl {
     : _pTextureManager(TextureManager::Instance()) {}
 
   void update() {
-    // TODO
+    _pLevel->update();
   }
 
   void render() {

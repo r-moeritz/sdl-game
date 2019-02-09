@@ -5,6 +5,7 @@
 #include "tilelayer.hh"
 #include "game.hh"
 #include "util.hh"
+#include "objectlayer.hh"
 #include <tinyxml2.h>
 #include <zlib.h>
 #include <stdexcept>
@@ -33,9 +34,19 @@ struct LevelParser::Impl {
       if (pe->Value() == std::string("tileset")) {
         parseTilesets(pe, pLevel->tilesets());
       }
-      // Parse any object layers
-      else if (pe->Value() == std::string("layer")) {
-        parseTileLayer(pe, pLevel->layers(), pLevel->tilesets());
+      // Parse any object or tile layers
+      else if (pe->Value() == std::string("objectgroup")
+               || pe->Value() == std::string("layer")) {
+        if (pe->FirstChildElement()->Value() == std::string("object")) {
+          parseObjectLayer(pe, pLevel->layers());
+        }
+        else if (pe->FirstChildElement()->Value() == std::string("data")) {
+          parseTileLayer(pe, pLevel->layers(), pLevel->tilesets());
+        }
+      }
+      // Parse the textures needed for this level
+      else if (pe->Value() == std::string("property")) {
+        parseTextures(pe);
       }
     }
 
@@ -118,6 +129,73 @@ private:
 
     pTileLayer->setTileIDs(data);
     pLayers->push_back(pTileLayer);
+  }
+
+  void parseTextures(XMLElement* pTextureRoot) {
+    TextureManager::Instance()->load(pTextureRoot->Attribute("value"),
+                                     pTextureRoot->Attribute("name"),
+                                     Game::Instance()->renderer());
+  }
+
+  void parseObjectLayer(XMLElement* pObjectElement,
+                        LayerPtrVectorPtr pLayers) {
+    auto pObjectLayer = std::make_shared<ObjectLayer>();
+
+    for (auto pe = pObjectElement->FirstChildElement();
+         pe != nullptr; pe = pe->NextSiblingElement()) {
+      if (pe->Value() == std::string("object")) {
+        auto x = pe->IntAttribute("x");
+        auto y = pe->IntAttribute("y");
+
+        int numFrames;
+        int height;
+        int width;
+        std::string textureId;
+        int animSpeed;
+        std::string callbackId;
+
+        // Read property values
+        for (auto pProperties = pe->FirstChildElement();
+             pProperties = nullptr; pProperties = pProperties->NextSiblingElement()) {
+          if (pProperties->Value() == std::string("properties")) {
+            for (auto pProp = pProperties->FirstChildElement();
+                 pProp != nullptr; pProp = pProp->NextSiblingElement()) {
+              if (pProp->Value() == std::string("property")) {
+                auto propName = pProp->Attribute("name");
+
+                if (propName == std::string("numFrames")) {
+                  numFrames = pProp->IntAttribute("value");
+                }
+                else if (propName == std::string("textureHeight")) {
+                  height = pProp->IntAttribute("value");
+                }
+                else if (propName == std::string("textureId")) {
+                  textureId = pProp->Attribute("value");
+                }
+                else if (propName == std::string("textureWidth")) {
+                  width = pProp->IntAttribute("value");
+                }
+                else if (propName == std::string("callbackId")) {
+                  callbackId = pProp->Attribute("callbackId");
+                }
+                else if (propName == std::string("animSpeed")) {
+                  animSpeed = pProp->IntAttribute("animSpeed");
+                }
+              }
+            }
+          }
+        }
+
+        auto pGameObj = GameObjectFactory::Instance()->create(pe->Attribute("type"));
+        auto pLoaderParams = std::make_shared<LoaderParams>(x, y, width, height, textureId,
+                                                            numFrames, callbackId, animSpeed);
+        pGameObj->load(pLoaderParams);
+
+        pObjectLayer->gameObjects()->push_back(pGameObj);
+      }
+    }
+
+    pLayers->push_back(pObjectLayer);
   }
 
   int _tileSize;

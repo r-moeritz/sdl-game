@@ -19,6 +19,7 @@ struct TileLayer::Impl {
 
   void update() {
     _position += _velocity;
+    _velocity.setX(1);
   }
 
   void render() {
